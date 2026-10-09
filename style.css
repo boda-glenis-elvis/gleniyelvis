@@ -442,10 +442,12 @@ body {
 .names-signature-wrapper .name-glenis {
   align-self: flex-start;
   margin-left: 12%;
-  line-height: 1.1;
+  line-height: 1.25;
   position: relative;
   z-index: 5;
   animation: nameEntranceLeft 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+  overflow: visible;
+  white-space: nowrap;
 }
 
 .names-signature-wrapper .name-connector {
@@ -453,106 +455,120 @@ body {
   font-style: italic;
   font-weight: 600;
   font-size: 2.85rem;
-  line-height: 0.8;
-  margin: -6px 0;
+  line-height: 0.9;
+  margin: -4px 0;
   z-index: 6;
   position: relative;
   color: #8c6788;
   animation: nameEntranceCenter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s backwards;
+  overflow: visible;
 }
 
 .names-signature-wrapper .name-elvis {
   align-self: flex-end;
   margin-right: 10%;
-  line-height: 1.1;
+  line-height: 1.25;
   position: relative;
   z-index: 5;
   animation: nameEntranceRight 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s backwards;
+  overflow: visible;
+  white-space: nowrap;
 }
 
 /* ==============================================================
-   Efecto: Destellos Estelares Dorados para Nombres (Glenis & Elvis)
+   Efecto: Corazones Malva Joya con Toques Dorados y Brillo Intermitente
+   Configuración Oficial Seleccionada por los Novios:
+   - Acabado: Malva Joya con Borde Oro 18k y Destello Estelar
+   - Presencia y Tamaño: 23px a 28px con 85% de opacidad
+   - Animación: Latido Suave Intermitente con Resplandor Dorado al latir
+   - Ritmo: Un poco más continuo (aparecen de 1 en 1 sin saturación)
    ============================================================== */
-.names-sparkles-container {
+.names-hearts-container {
   position: absolute;
-  inset: -15px -10px;
+  inset: -24px -16px;
   pointer-events: none;
   z-index: 4;
+  overflow: visible;
 }
 
-.hero-sparkle-star {
+.hero-floating-heart {
   position: absolute;
   display: block;
-  transform-origin: center;
-  animation: heroStarTwinkle 2.4s ease-in-out infinite;
-  filter: drop-shadow(0 0 5px rgba(223, 186, 115, 0.85));
+  transform-origin: center center;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  will-change: transform, opacity, filter;
+  animation: heartIntermittentBeatWithGlow 5.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
 }
 
-.hero-sparkle-star svg {
+.hero-floating-heart svg {
   width: 100%;
   height: 100%;
   display: block;
+  overflow: visible;
 }
 
-.hero-sparkle-star.star-small {
-  width: 13px;
-  height: 13px;
-  animation-duration: 1.9s;
-}
+/* Tamaños con presencia notoria */
+.hero-floating-heart.heart-size-mini   { width: 18px; height: 18px; }
+.hero-floating-heart.heart-size-small  { width: 23px; height: 23px; }
+.hero-floating-heart.heart-size-medium { width: 28px; height: 28px; }
 
-.hero-sparkle-star.star-medium {
-  width: 17px;
-  height: 17px;
-  animation-duration: 2.6s;
-}
-
-.hero-sparkle-star.star-large {
-  width: 23px;
-  height: 23px;
-  animation-duration: 3.2s;
-}
-
-@keyframes heroStarTwinkle {
-  0%, 100% {
-    transform: scale(0) rotate(0deg);
+/* Animación: Latido Suave Intermitente con Glow Radiante */
+@keyframes heartIntermittentBeatWithGlow {
+  0% {
     opacity: 0;
+    transform: scale(0.32);
+    filter: drop-shadow(0 0 2px rgba(223, 186, 115, 0.2));
   }
-  30% {
-    transform: scale(1.15) rotate(45deg);
-    opacity: 1;
-  }
-  60% {
-    transform: scale(0.85) rotate(90deg);
+  10% {
     opacity: 0.85;
+    transform: scale(1.18);
+    filter: drop-shadow(0 0 8px rgba(223, 186, 115, 0.90)) 
+            drop-shadow(0 0 16px rgba(255, 238, 160, 0.65));
   }
-  85% {
-    transform: scale(0.2) rotate(135deg);
-    opacity: 0.2;
+  18% {
+    transform: scale(0.94);
+    filter: drop-shadow(0 0 4px rgba(223, 186, 115, 0.65));
+  }
+  26% {
+    transform: scale(1.22);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 10px rgba(223, 186, 115, 1.0)) 
+            drop-shadow(0 0 20px rgba(255, 240, 180, 0.85));
+  }
+  38% {
+    opacity: 0;
+    transform: scale(0.38);
+    filter: drop-shadow(0 0 2px rgba(223, 186, 115, 0));
+  }
+  39%, 100% {
+    opacity: 0;
+    transform: scale(0.32);
   }
 }
 
-/* Distribución armónica de las estrellas */
-.hero-sparkle-star.star-1 { top: 6%; left: 4%; animation-delay: 0.1s; }
-.hero-sparkle-star.star-2 { top: 22%; left: 52%; animation-delay: 0.8s; }
-.hero-sparkle-star.star-3 { top: 12%; right: 4%; animation-delay: 1.5s; }
-.hero-sparkle-star.star-4 { bottom: 18%; left: 10%; animation-delay: 0.5s; }
-.hero-sparkle-star.star-5 { bottom: 8%; right: 6%; animation-delay: 1.2s; }
-.hero-sparkle-star.star-6 { top: 48%; left: 22%; animation-delay: 1.9s; }
-.hero-sparkle-star.star-7 { top: 2%; right: 28%; animation-delay: 2.3s; }
+/* Distribución armónica de las 6 micro-posiciones */
+.hero-floating-heart.pos-1 { top: -4%; left: 5%; }
+.hero-floating-heart.pos-2 { top: 32%; left: 14%; }
+.hero-floating-heart.pos-3 { top: 12%; left: 47%; }
+.hero-floating-heart.pos-4 { bottom: 26%; left: 35%; }
+.hero-floating-heart.pos-5 { top: 28%; right: 8%; }
+.hero-floating-heart.pos-6 { bottom: -4%; right: 6%; }
 
+/* Cadencia continua: Delays escalonados (aparecen de 1 en 1 fluidamente) */
+.hero-floating-heart.delay-1 { animation-delay: 0.0s; }
+.hero-floating-heart.delay-2 { animation-delay: 0.9s; }
+.hero-floating-heart.delay-3 { animation-delay: 1.8s; }
+.hero-floating-heart.delay-4 { animation-delay: 2.7s; }
+.hero-floating-heart.delay-5 { animation-delay: 3.6s; }
+.hero-floating-heart.delay-6 { animation-delay: 4.5s; }
+
+/* Adaptación responsive en pantallas pequeñas */
 @media (max-width: 480px) {
-  .hero-sparkle-star.star-large {
-    width: 19px;
-    height: 19px;
-  }
-  .hero-sparkle-star.star-medium {
-    width: 15px;
-    height: 15px;
-  }
-  .hero-sparkle-star.star-small {
-    width: 11px;
-    height: 11px;
-  }
+  .hero-floating-heart.heart-size-mini   { width: 16px; height: 16px; }
+  .hero-floating-heart.heart-size-small  { width: 20px; height: 20px; }
+  .hero-floating-heart.heart-size-medium { width: 25px; height: 25px; }
 }
 
 /* 3. Efecto bonito e interactivo para "Presiona para escuchar nuestra canción" */
@@ -1909,7 +1925,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center center;
   display: block;
 }
 /* Geometría 3D equilateral adaptada al nuevo ancho proporcional */
@@ -1984,7 +2000,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center center;
   display: block;
 }
 
@@ -2028,7 +2044,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center center;
   display: block;
 }
 .medallion-face-front { transform: rotateY(0deg); }

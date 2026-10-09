@@ -1120,7 +1120,9 @@ async function sendWishMessage(event) {
 
   const senderName = author || "Invitado";
 
+  let originalBtnContent = "";
   if (submitBtn) {
+    originalBtnContent = submitBtn.innerHTML;
     submitBtn.disabled = true;
     submitBtn.innerHTML = `<span>ENVIANDO... ⏳</span>`;
   }
@@ -1177,7 +1179,7 @@ async function sendWishMessage(event) {
 
   if (submitBtn) {
     submitBtn.disabled = false;
-    submitBtn.innerHTML = `<span>ENVIAR DESEO ✨</span>`;
+    submitBtn.innerHTML = originalBtnContent || `<span>ENVIAR DESEO ✨</span>`;
   }
 }
 
@@ -1589,13 +1591,28 @@ function initPadrinosOrigami3D() {
 
 // 3. Medallón Flotante con Inercia de Péndulo (Dress Code)
 const medallionImages = [
-  "img/media_1789505720637.png",
-  "img/media_1789504287631.jpg",
-  "img/media_1789505621350.png"
+  "img/foto7.jpeg",
+  "img/foto8.jpeg",
+  "img/foto9.jpeg"
+];
+const medallionPositions = [
+  "center center",
+  "center center",
+  "center center"
 ];
 let medallionRot = 0;
 let medallionStep = 0;
 let medallionInterval = null;
+
+function handleMedallionImgError(imgEl) {
+  if (!imgEl) return;
+  const src = imgEl.getAttribute("src") || imgEl.src;
+  if (src.includes(".jpeg")) {
+    imgEl.src = src.replace(".jpeg", ".jpg");
+  } else if (src.includes(".jpg")) {
+    imgEl.src = src.replace(".jpg", ".png");
+  }
+}
 
 function updateMedallionDots(activeIdx) {
   const dots = document.querySelectorAll(".medallion-dot");
@@ -1618,8 +1635,10 @@ function setMedallionStep(targetIdx) {
 
   if (isOdd) {
     backImg.src = medallionImages[targetIdx];
+    backImg.style.objectPosition = medallionPositions[targetIdx] || "center center";
   } else {
     frontImg.src = medallionImages[targetIdx];
+    frontImg.style.objectPosition = medallionPositions[targetIdx] || "center center";
   }
 
   rig.style.transform = `rotateY(${medallionRot}deg)`;
@@ -1629,8 +1648,10 @@ function setMedallionStep(targetIdx) {
     const nextIdx = (medallionStep + 1) % medallionImages.length;
     if (isOdd) {
       frontImg.src = medallionImages[nextIdx];
+      frontImg.style.objectPosition = medallionPositions[nextIdx] || "center center";
     } else {
       backImg.src = medallionImages[nextIdx];
+      backImg.style.objectPosition = medallionPositions[nextIdx] || "center center";
     }
   }, 620);
 }
