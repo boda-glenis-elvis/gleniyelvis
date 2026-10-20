@@ -615,7 +615,7 @@
     // Estado y Persistencia
     // -------------------------------------------------------------
     const STORAGE_KEY_GUESTS = "wedding_guests_glenis_elvis_v1";
-    const STORAGE_KEY_BASE_URL = "wedding_base_url_glenis_elvis_v2";
+    const STORAGE_KEY_BASE_URL = "wedding_base_url_glenis_elvis_v3";
     const STORAGE_KEY_TEMPLATE = "wedding_template_glenis_elvis_v2";
 
     const DEFAULT_TEMPLATE = 
@@ -659,15 +659,8 @@ Por favor confirma tu asistencia directamente en el enlace. ✨❤️🥂`;
         return `${window.location.origin}${basePath}`;
       }
 
-      // Si estamos en local (file://)
-      const currentUrl = window.location.href.split('#')[0].split('?')[0];
-      let targetUrl = currentUrl;
-      if (targetUrl.includes("generador")) {
-        targetUrl = targetUrl.replace(/generador(\.html)?\/?$/i, "index.html");
-      } else if (!targetUrl.endsWith("index.html")) {
-        targetUrl = targetUrl.replace(/\/?$/, "/index.html");
-      }
-      return targetUrl;
+      // Si estamos en local (file://), usar la URL web oficial para que los enlaces de WhatsApp funcionen de inmediato:
+      return "https://boda-glenis-elvis.github.io/gleniyelvis/";
     }
 
     function cleanBaseUrl(url) {
