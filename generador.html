@@ -615,19 +615,21 @@
     // Estado y Persistencia
     // -------------------------------------------------------------
     const STORAGE_KEY_GUESTS = "wedding_guests_glenis_elvis_v1";
-    const STORAGE_KEY_BASE_URL = "wedding_base_url_glenis_elvis_v1";
-    const STORAGE_KEY_TEMPLATE = "wedding_template_glenis_elvis_v1";
+    const STORAGE_KEY_BASE_URL = "wedding_base_url_glenis_elvis_v2";
+    const STORAGE_KEY_TEMPLATE = "wedding_template_glenis_elvis_v2";
 
     const DEFAULT_TEMPLATE = 
 `💍 *¡Hola {nombre}!*
 
 Con la bendición de Dios y de nuestros padres, *Glenis & Elvis* tenemos la inmensa alegría y el honor de invitarte a celebrar nuestra Boda este *Sábado 14 de Noviembre de 2026* en la hermosa ciudad de Cusco.
 
-Hemos preparado esta invitación digital interactiva especialmente para ti:
+{pases}
+¡Tu presencia hará que nuestro día sea verdaderamente inolvidable!
+
+🕊️ Toca el siguiente enlace para abrir tu invitación interactiva:
 👉 {enlace}
 
-{pases}
-¡Tu presencia hará que nuestro día sea verdaderamente inolvidable! Por favor confirma tu asistencia directamente en el enlace. ✨❤️🥂`;
+Por favor confirma tu asistencia directamente en el enlace. ✨❤️🥂`;
 
     let guests = [];
     let currentFilter = "all";
@@ -654,7 +656,7 @@ Hemos preparado esta invitación digital interactiva especialmente para ti:
         if (!basePath.endsWith("/")) {
           basePath += "/";
         }
-        return `${window.location.origin}${basePath}index.html`;
+        return `${window.location.origin}${basePath}`;
       }
 
       // Si estamos en local (file://)
@@ -672,10 +674,11 @@ Hemos preparado esta invitación digital interactiva especialmente para ti:
       if (!url) return getAutoBaseUrl();
       let clean = url.trim();
       // Eliminar el error frecuente de duplicación /generador/index.html
-      clean = clean.replace(/\/generador\/index\.html/i, "/index.html");
-      clean = clean.replace(/\/generador(\.html)?\/?$/i, "/index.html");
-      if (clean.endsWith("/")) {
-        clean += "index.html";
+      clean = clean.replace(/\/generador\/index\.html/i, "/");
+      clean = clean.replace(/\/generador(\.html)?\/?$/i, "/");
+      clean = clean.replace(/\/index\.html$/i, "/");
+      if (!clean.endsWith("/") && !clean.includes("?")) {
+        clean += "/";
       }
       return clean;
     }
@@ -915,7 +918,7 @@ Hemos preparado esta invitación digital interactiva especialmente para ti:
       }
       const encodedName = encodeURIComponent(guest.name);
       const separator = baseUrl.includes("?") ? "&" : "?";
-      return `${baseUrl}${separator}para=${encodedName}&pases=${guest.passes}&id=${encodeURIComponent(guest.id)}`;
+      return `${baseUrl}${separator}para=${encodedName}&pases=${guest.passes}`;
     }
 
     function buildWhatsAppText(guest) {
