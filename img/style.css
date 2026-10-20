@@ -1,0 +1,2072 @@
+/* ===================================================================
+   BODA GLENIS & ELVIS - ESTILOS PERSONALIZADOS
+   Fusión: Clásico Elegante + Floral Botánico (Gold & Ivory & Olive)
+   =================================================================== */
+
+:root {
+  --primary-gold: #c5a059;
+  --light-gold: #e8d7ad;
+  --dark-gold: #967434;
+  --gold-gradient: linear-gradient(135deg, #dfba73 0%, #c5a059 50%, #9a7428 100%);
+  --champagne-bg: #faf7f2;
+  --pure-white: #ffffff;
+  --sage-green: #687f6b;
+  --deep-forest: #2f4538;
+  --soft-olive: #8a9d86;
+  --text-main: #2b2b2b;
+  --text-muted: #6b6b6b;
+  --border-gold: rgba(197, 160, 89, 0.35);
+  --shadow-gold: 0 10px 30px rgba(197, 160, 89, 0.15);
+
+  /* Estilo Recuadro: Opacidad del fondo blanco (0.40 = 40% blanco / 60% transparente) */
+  /* Puedes cambiar este número: 0.20 (muy transparente) ... 0.40 (equilibrado) ... 0.65 (satinado opaco) */
+  --card-bg-opacity: 0.40;
+  --card-bg: rgba(255, 255, 255, var(--card-bg-opacity));
+
+  /* Tipografías dinámicas editables */
+  --font-family-title: 'Aniyah', 'Great Vibes', 'Alex Brush', cursive, serif;
+  --font-family-body: 'Cormorant Garamond', serif;
+
+  /* Botones interactivos */
+  --btn-palette-bg: #6e4c69;
+  --btn-palette-text: #ffffff;
+  --btn-gold-bg: #9d783e;
+  --btn-gold-text: #ffffff;
+
+  /* Sobre 3D de entrada */
+  --envelope-bg: #eee3d5;
+  --envelope-flap-bg: linear-gradient(180deg, #f2e7da 0%, #e5d5c3 100%);
+  --envelope-pocket-bg: linear-gradient(135deg, #fcf7f0 0%, #f1e4d3 100%);
+  --seal-color: #b88c40;
+
+  /* Estructura y Espaciado de Recuadros */
+  --card-spacing-y: 1rem;
+  --card-padding-y: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--champagne-bg);
+  color: var(--text-main);
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Importar fuente Aniyah (y fallbacks caligráficos elegantes) */
+@import url('https://fonts.cdnfonts.com/css/aniyah');
+
+@font-face {
+  font-family: 'Aniyah';
+  src: local('Aniyah'), local('Aniyah Script'),
+       url('fonts/Aniyah.otf') format('opentype'),
+       url('fonts/Aniyah.ttf') format('truetype'),
+       url('fonts/Aniyah.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tipografías especiales dinámicas */
+.font-aniyah {
+  font-family: var(--font-family-title);
+  line-height: 1.25;
+}
+
+.font-script {
+  font-family: 'Alex Brush', cursive;
+  line-height: 1.25;
+}
+
+.font-serif-title {
+  font-family: 'Playfair Display', serif;
+  line-height: 1.3;
+}
+
+.font-cormorant {
+  font-family: var(--font-family-body);
+  line-height: 1.4;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-calligraphy {
+  font-family: 'Great Vibes', cursive;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans-clean {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Colores temáticos de la invitación */
+.text-gold-invitation {
+  color: #967434;
+}
+
+.text-gold-light {
+  color: #b88c40;
+}
+
+.text-gold-dark {
+  color: #7d5b24;
+}
+
+/* Botones estilo píldora dorada de las referencias (VER MAPA y CONFIRMAR) */
+.btn-pill-gold {
+  background-color: var(--btn-gold-bg);
+  color: var(--btn-gold-text);
+  border-radius: 9999px;
+  padding: 0.65rem 2.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-family-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-pill-gold:hover {
+  filter: brightness(0.92);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  color: var(--btn-gold-text);
+}
+
+/* Botones estilo píldora con la paleta personalizable */
+.btn-pill-palette {
+  background-color: var(--btn-palette-bg);
+  color: var(--btn-palette-text) !important;
+  border-radius: 9999px;
+  padding: 0.52rem 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-family: var(--font-family-body);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Botón de mapa compacto para mantener la jerarquía del texto de locación */
+.btn-pill-map {
+  padding: 0.42rem 1.35rem !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.08em !important;
+  gap: 0.38rem !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16) !important;
+}
+.btn-pill-map svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+
+.btn-pill-palette:hover {
+  filter: brightness(0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  color: var(--btn-palette-text) !important;
+}
+
+/* Bloque estilizado de fecha - Estructura simétrica de 3 columnas para centrado absoluto */
+.date-badge-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 0.85rem;
+  max-width: 440px;
+  margin: 1rem auto;
+  width: 100%;
+}
+
+.date-badge-col-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.date-badge-col-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.date-badge-line {
+  height: 1px;
+  background: #aa8eaa;
+  flex: 1;
+  opacity: 0.75;
+}
+
+.date-heart-badge {
+  position: relative;
+  width: 86px;
+  height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.date-heart-svg,
+.date-heart-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  animation: heartFadeInOut 3.5s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.date-heart-number {
+  position: relative;
+  z-index: 2;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 2.15rem;
+  line-height: 1;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(70, 25, 65, 0.55);
+  transform: translateY(-2px);
+  animation: numberSubtlePulse 3.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes heartFadeInOut {
+  0%, 100% {
+    opacity: 0.08;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes numberSubtlePulse {
+  0%, 100% {
+    transform: translateY(-2px) scale(0.97);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.03);
+  }
+}
+
+@media (max-width: 480px) {
+  .date-badge-wrapper {
+    gap: 0.45rem;
+    max-width: 330px;
+  }
+  .date-badge-col-left,
+  .date-badge-col-right {
+    gap: 0.35rem;
+  }
+  .date-heart-badge {
+    width: 76px;
+    height: 72px;
+  }
+  .date-heart-number {
+    font-size: 1.85rem;
+  }
+}
+
+/* Marcos para fotos 2 y 3 */
+.torn-photo-2-container {
+  width: 100%;
+  max-width: 32rem; /* Mismo ancho uniforme de 32rem (512px) */
+  height: 480px;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: 24px;
+  box-shadow: 0 14px 35px rgba(110, 76, 105, 0.16);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-sizing: border-box;
+}
+
+.torn-photo-2-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  filter: contrast(1.02) brightness(1.01);
+}
+
+.torn-photo-3-container {
+  width: 100%;
+  max-width: 32rem; /* Mismo ancho uniforme de 32rem (512px) */
+  height: 360px;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: 24px;
+  box-shadow: 0 14px 35px rgba(110, 76, 105, 0.16);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-sizing: border-box;
+}
+
+.torn-photo-3-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: contrast(1.02) brightness(1.01);
+}
+
+/* ===================================================================
+   PORTADA DE NOVIOS & ANIMACIONES ESPECIALES
+   =================================================================== */
+
+/* 1. Efecto aparecer y desaparecer equilibrado (ni rápido ni lento) para ¡NOS CASAMOS! */
+@keyframes pulseFadeInOut {
+  0%, 100% {
+    opacity: 0.18;
+    transform: scale(0.97);
+    filter: drop-shadow(0 0 0 rgba(184, 140, 64, 0));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 10px rgba(212, 163, 75, 0.5));
+  }
+}
+
+.effect-fade-loop {
+  animation: pulseFadeInOut 3.4s ease-in-out infinite;
+  display: inline-block;
+  will-change: opacity, transform;
+}
+
+/* 2. Efecto elegante y suave de aparición para Glenis y Elvis */
+@keyframes nameEntranceLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-35px) scale(0.92);
+    filter: blur(6px);
+  }
+  60% {
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes nameEntranceCenter {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes nameEntranceRight {
+  0% {
+    opacity: 0;
+    transform: translateX(35px) scale(0.92);
+    filter: blur(6px);
+  }
+  60% {
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Sutil destello malva continuo y elegante para los nombres */
+@keyframes subtlePlumGlow {
+  0%, 100% {
+    text-shadow: 0 2px 5px rgba(110, 76, 105, 0.18);
+  }
+  50% {
+    text-shadow: 0 4px 18px rgba(170, 142, 170, 0.6), 0 0 25px rgba(241, 202, 211, 0.45);
+  }
+}
+
+/* Disposición artística de nombres tipo firma con animaciones */
+.names-signature-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 1rem auto 1.5rem auto;
+  color: #6e4c69;
+}
+
+.names-signature-wrapper .name-glenis {
+  align-self: flex-start;
+  margin-left: 12%;
+  line-height: 1.25;
+  position: relative;
+  z-index: 5;
+  animation: nameEntranceLeft 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.names-signature-wrapper .name-connector {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif !important;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 2.85rem;
+  line-height: 0.9;
+  margin: -4px 0;
+  z-index: 6;
+  position: relative;
+  color: #8c6788;
+  animation: nameEntranceCenter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s backwards;
+  overflow: visible;
+}
+
+.names-signature-wrapper .name-elvis {
+  align-self: flex-end;
+  margin-right: 10%;
+  line-height: 1.25;
+  position: relative;
+  z-index: 5;
+  animation: nameEntranceRight 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s backwards;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+/* ==============================================================
+   Efecto: Corazones Malva Joya con Toques Dorados y Brillo Intermitente
+   Configuración Oficial Seleccionada por los Novios:
+   - Acabado: Malva Joya con Borde Oro 18k y Destello Estelar
+   - Presencia y Tamaño: 23px a 28px con 85% de opacidad
+   - Animación: Latido Suave Intermitente con Resplandor Dorado al latir
+   - Ritmo: Un poco más continuo (aparecen de 1 en 1 sin saturación)
+   ============================================================== */
+.names-hearts-container {
+  position: absolute;
+  inset: -24px -16px;
+  pointer-events: none;
+  z-index: 4;
+  overflow: visible;
+}
+
+.hero-floating-heart {
+  position: absolute;
+  display: block;
+  transform-origin: center center;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  will-change: transform, opacity, filter;
+  animation: heartIntermittentBeatWithGlow 5.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.hero-floating-heart svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* Tamaños con presencia notoria */
+.hero-floating-heart.heart-size-mini   { width: 18px; height: 18px; }
+.hero-floating-heart.heart-size-small  { width: 23px; height: 23px; }
+.hero-floating-heart.heart-size-medium { width: 28px; height: 28px; }
+
+/* Animación: Latido Suave Intermitente con Glow Radiante */
+@keyframes heartIntermittentBeatWithGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.32);
+    filter: drop-shadow(0 0 2px rgba(223, 186, 115, 0.2));
+  }
+  10% {
+    opacity: 0.85;
+    transform: scale(1.18);
+    filter: drop-shadow(0 0 8px rgba(223, 186, 115, 0.90)) 
+            drop-shadow(0 0 16px rgba(255, 238, 160, 0.65));
+  }
+  18% {
+    transform: scale(0.94);
+    filter: drop-shadow(0 0 4px rgba(223, 186, 115, 0.65));
+  }
+  26% {
+    transform: scale(1.22);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 10px rgba(223, 186, 115, 1.0)) 
+            drop-shadow(0 0 20px rgba(255, 240, 180, 0.85));
+  }
+  38% {
+    opacity: 0;
+    transform: scale(0.38);
+    filter: drop-shadow(0 0 2px rgba(223, 186, 115, 0));
+  }
+  39%, 100% {
+    opacity: 0;
+    transform: scale(0.32);
+  }
+}
+
+/* Distribución armónica de las 6 micro-posiciones */
+.hero-floating-heart.pos-1 { top: -4%; left: 5%; }
+.hero-floating-heart.pos-2 { top: 32%; left: 14%; }
+.hero-floating-heart.pos-3 { top: 12%; left: 47%; }
+.hero-floating-heart.pos-4 { bottom: 26%; left: 35%; }
+.hero-floating-heart.pos-5 { top: 28%; right: 8%; }
+.hero-floating-heart.pos-6 { bottom: -4%; right: 6%; }
+
+/* Cadencia continua: Delays escalonados (aparecen de 1 en 1 fluidamente) */
+.hero-floating-heart.delay-1 { animation-delay: 0.0s; }
+.hero-floating-heart.delay-2 { animation-delay: 0.9s; }
+.hero-floating-heart.delay-3 { animation-delay: 1.8s; }
+.hero-floating-heart.delay-4 { animation-delay: 2.7s; }
+.hero-floating-heart.delay-5 { animation-delay: 3.6s; }
+.hero-floating-heart.delay-6 { animation-delay: 4.5s; }
+
+/* Adaptación responsive en pantallas pequeñas */
+@media (max-width: 480px) {
+  .hero-floating-heart.heart-size-mini   { width: 16px; height: 16px; }
+  .hero-floating-heart.heart-size-small  { width: 20px; height: 20px; }
+  .hero-floating-heart.heart-size-medium { width: 25px; height: 25px; }
+}
+
+/* 3. Efecto bonito e interactivo para "Presiona para escuchar nuestra canción" */
+@keyframes musicTextGlow {
+  0%, 100% {
+    transform: translateY(0);
+    letter-spacing: 0.01em;
+    color: #6e4c69;
+  }
+  50% {
+    transform: translateY(-2.5px);
+    letter-spacing: 0.03em;
+    color: #8c6788;
+    text-shadow: 0 2px 10px rgba(170, 142, 170, 0.35);
+  }
+}
+
+@keyframes musicIntroSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.effect-music-invite {
+  display: inline-block;
+  animation: musicIntroSlide 1.3s cubic-bezier(0.16, 1, 0.3, 1) 1.2s backwards,
+             musicTextGlow 3.6s ease-in-out 2.5s infinite;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.effect-music-invite:hover {
+  transform: scale(1.05) translateY(-2px);
+  color: #7d5b24;
+}
+
+/* Efecto de pulso suave en el botón play para invitar a presionar */
+.player-btn-play:not(.playing) {
+  animation: gentlePlayPulse 2.8s infinite ease-in-out;
+}
+
+@keyframes gentlePlayPulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(184, 140, 64, 0.5);
+  }
+  50% {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), 0 0 0 8px rgba(184, 140, 64, 0);
+  }
+}
+
+/* Barra de reproductor de audio minimalista (estilo imagen) */
+.music-player-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.player-controls {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.player-btn-play {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #111111;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  border: none;
+}
+
+.player-btn-play:hover {
+  transform: scale(1.08);
+  background-color: #b88c40;
+}
+
+.player-icon-btn {
+  background: transparent;
+  border: none;
+  color: #2b2b2b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.player-icon-btn:hover {
+  transform: scale(1.15);
+  color: #b88c40;
+}
+
+.player-icon-btn.liked {
+  color: #e53e3e;
+}
+
+/* Marco de foto con efecto de papel rasgado adaptado al fondo */
+.torn-paper-frame {
+  position: relative;
+  max-width: 440px;
+  margin: 0.5rem auto 1rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.torn-paper-photo {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  filter: contrast(1.02) brightness(1.01);
+  transition: transform 0.4s ease;
+}
+
+.torn-paper-photo:hover {
+  transform: scale(1.02);
+}
+
+/* =========================================================================
+   CANVAS DE FONDO DINÁMICO / PÉRGOLA FLORAL CENTRAL (Opción C Suavizada)
+   ========================================================================= */
+#background-master-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background-size: cover;
+  background-position: center center; /* Centrado en la luz central (idéntico al ejemplo) */
+  background-repeat: no-repeat;
+  background-image: url('img/fondo_flores_opt.jpg');
+  background-color: #faf8f6;
+  opacity: 0.8; /* Suavizado al 80% para evitar sobre-saturación */
+  filter: saturate(1.2) brightness(1.0); /* Tonos pastel delicados de acuarela */
+}
+
+/* Opciones de fondo rápido intercambiables */
+#background-master-viewport.bg-opt-a {
+  background-image: url('img/aura_botanica_eterea_1789587388267.jpg');
+}
+#background-master-viewport.bg-opt-b {
+  background-image: url('img/botanico_cascada_central_1789587221668.jpg');
+}
+#background-master-viewport.bg-opt-c {
+  background-image: url('img/fondo_flores_opt.jpg');
+}
+
+/* Velo sutil de luz marfil idéntico al de las demostraciones */
+#background-master-viewport::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(250, 248, 246, 0.40) 0%, rgba(250, 248, 246, 0.10) 100%);
+  pointer-events: none;
+}
+
+.bg-wedding-pattern {
+  background-color: #faf8f6;
+  position: relative;
+}
+
+/* =========================================================================
+   RECUADRO ESTILO VELO SUAVE (Mismo Ancho 32rem / max-w-lg, Mayor Transparencia)
+   ========================================================================= */
+.card-style-velo {
+  background: rgba(255, 255, 255, var(--card-bg-opacity));
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  box-shadow: 0 16px 45px rgba(110, 76, 105, 0.12), 0 2px 10px rgba(255, 255, 255, 0.35);
+  border-radius: 30px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+  position: relative;
+  width: 100%;
+  max-width: 32rem; /* Exactamente el ancho del cuadro 'Con la bendición de Dios...' (max-w-lg = 512px) */
+  margin-top: var(--card-spacing-y) !important;
+  margin-bottom: var(--card-spacing-y) !important;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: var(--card-padding-y) !important;
+  padding-bottom: var(--card-padding-y) !important;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .card-style-velo {
+    border-radius: 24px;
+    max-width: 100%;
+  }
+}
+
+/* Sutil halo de luz en textos para contraste cristalino impecable */
+.card-style-velo .font-aniyah {
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95), 0 2px 8px rgba(255, 255, 255, 0.75);
+}
+
+.card-style-velo .font-cormorant,
+.card-style-velo .font-serif-title {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
+}
+
+/* Efecto dorado para textos */
+.gold-text {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border {
+  border-color: var(--primary-gold);
+}
+
+/* ===================================================================
+   PANTALLA DE APERTURA: SOBRE DE BODA REALISTA (Wedding Envelope)
+   =================================================================== */
+#welcome-modal {
+  backdrop-filter: blur(10px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+}
+
+#welcome-modal.hidden-modal {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ===================================================================
+   SOBRE DE BIENVENIDA 3D (OPCIÓN B PERFECCIONADA)
+   =================================================================== */
+.envelope-perspective { 
+  perspective: 1200px; 
+}
+
+.envelope-box {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  height: 280px;
+  background: var(--envelope-bg);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px -15px rgba(60, 42, 25, 0.38);
+  transition: transform 0.6s ease, background 0.3s ease;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0% 0%, 50% 54%, 100% 0%);
+  background: var(--envelope-flap-bg);
+  transform-origin: top center;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.3s;
+  z-index: 30;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.envelope-pocket {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0% 0%, 50% 50%, 100% 0%, 100% 100%, 0% 100%);
+  background: var(--envelope-pocket-bg);
+  border-radius: 22px;
+  z-index: 20;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.envelope-letter {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  height: 232px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border: 1px solid #ebd8c5;
+  z-index: 10;
+  transform: translateY(16px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.85s cubic-bezier(0.34, 1.25, 0.64, 1) 0.35s, opacity 0.5s ease 0.25s;
+}
+
+.envelope-seal-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -46%);
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.4s ease, transform 0.35s ease;
+}
+
+/* Sello de lacre 3D de alta fidelidad */
+.wax-seal-stamp {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, color-mix(in srgb, var(--seal-color) 70%, white 30%) 0%, var(--seal-color) 50%, color-mix(in srgb, var(--seal-color) 60%, black 40%) 100%);
+  border: 3px solid rgba(255, 240, 205, 0.55);
+  box-shadow: 0 8px 22px rgba(122, 85, 24, 0.5), 
+              0 2px 4px rgba(0, 0, 0, 0.25), 
+              inset 0 2px 4px rgba(255, 255, 255, 0.5), 
+              inset 0 -3px 6px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: waxPulse 3s infinite ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+@keyframes waxPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 22px rgba(122, 85, 24, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(184, 140, 64, 0.65), inset 0 2px 6px rgba(255, 255, 255, 0.65);
+  }
+}
+
+/* Contenido interior del sello de lacre: G + Corazón + E grabado en 3D */
+.wax-seal-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  user-select: none;
+}
+
+.wax-seal-initial {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  line-height: 1;
+  color: #fff9ee;
+  text-shadow: 0 1px 2px rgba(80, 50, 10, 0.8), 0 -1px 1px rgba(255, 255, 255, 0.45);
+}
+
+.wax-seal-heart {
+  width: 15px;
+  height: 15px;
+  fill: #fff9ee;
+  filter: drop-shadow(0 1px 2px rgba(80, 50, 10, 0.8));
+}
+
+/* Tipografía caligráfica para Glenis y Elvis (vector continuo sin cortes) */
+.calligraphy-solid-gold {
+  font-family: var(--font-family-title, 'Great Vibes', cursive);
+  color: #e5c378;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 
+               0 2px 12px rgba(229, 195, 120, 0.35);
+  line-height: 1.45 !important;
+  display: inline-block;
+  padding: 0.1em 0.4em 0.3em 0.4em;
+  overflow: visible !important;
+}
+
+/* Desaparición suave y completa de todo el encabezado al presionar el sello */
+.header-full-disappear {
+  opacity: 0 !important;
+  transform: translateY(-20px) scale(0.95) !important;
+  pointer-events: none !important;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Estados de apertura */
+.envelope-open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 5;
+}
+.envelope-open .envelope-seal-wrapper {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -46%) scale(0.85);
+}
+
+.envelope-open .envelope-letter {
+  transform: translateY(-116px) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 40;
+}
+
+.envelope-open-header {
+  transform: translateY(-10px);
+}
+
+.pocket-guest-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1) 0.35s, transform 0.65s cubic-bezier(0.4, 0, 0.2, 1) 0.35s;
+}
+.envelope-open .pocket-guest-reveal {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.pocket-closed-accent {
+  transition: opacity 0.4s ease;
+}
+.envelope-open .pocket-closed-accent {
+  opacity: 0;
+}
+
+/* =========================================================================
+   SOBRE DE BIENVENIDA CON FOTOGRAFÍA REAL (GLENIS & ELVIS)
+   ========================================================================= */
+.photo-envelope-wrapper {
+  perspective: 1200px;
+  perspective-origin: center center;
+}
+
+.photo-envelope-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: visible;
+  box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.7),
+              0 15px 30px -10px rgba(80, 55, 20, 0.4);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.photo-envelope-card:hover {
+  box-shadow: 0 45px 85px -15px rgba(0, 0, 0, 0.85),
+              0 20px 40px -10px rgba(180, 140, 50, 0.45);
+}
+
+/* =========================================================================
+   MODOS DE VISUALIZACIÓN DEL SOBRE: CORONA SUPERIOR (ACTIVO) Y ENFOQUE ZOOM
+   ========================================================================= */
+
+/* Elemento de Video del Sobre */
+.envelope-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18px;
+  z-index: 12;
+  display: block;
+  background: #000000;
+}
+
+/* 1. MODO CORONA SUPERIOR (Activo por defecto): Proporción 16:9 Panorámica */
+.photo-envelope-card.envelope-mode-corona {
+  aspect-ratio: 16 / 9;
+  max-width: 440px;
+  margin-top: 155px;
+  transition: margin-top 0.6s ease, transform 0.4s ease;
+}
+.photo-envelope-card.envelope-mode-corona.envelope-open,
+.photo-envelope-card.envelope-mode-corona.envelope-state-open {
+  aspect-ratio: 16 / 9;
+  max-width: 440px;
+  margin-top: 155px;
+}
+.envelope-mode-corona .envelope-video {
+  object-fit: contain;
+}
+
+/* 2. MODO ENFOQUE ZOOM (Configurable en cualquier momento): Proporción 4 / 4.8 */
+.photo-envelope-card.envelope-mode-zoom {
+  aspect-ratio: 4 / 4.8;
+  max-width: 400px;
+}
+.photo-envelope-card.envelope-mode-zoom.envelope-open,
+.photo-envelope-card.envelope-mode-zoom.envelope-state-open {
+  aspect-ratio: 4 / 4.8;
+  max-width: 400px;
+}
+.envelope-mode-zoom .envelope-video {
+  object-fit: cover;
+}
+
+/* Al abrir el sobre en modo clásico (sin video): se libera la restricción 4/3 */
+.photo-envelope-card:not(.envelope-mode-corona):not(.envelope-mode-zoom).envelope-open,
+.photo-envelope-card:not(.envelope-mode-corona):not(.envelope-mode-zoom).envelope-state-open {
+  aspect-ratio: auto;
+  max-width: 440px;
+}
+
+/* Capa única y exclusiva: Video cinemático del sobre real de los novios */
+.envelope-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18px;
+  z-index: 12;
+  display: block;
+  background: #000000;
+}
+
+.seal-hotspot {
+  position: absolute;
+  top: 61%;
+  left: 50.5%;
+  transform: translate(-50%, -50%);
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Posicionamiento exacto del sello en el video 16:9 y modo zoom */
+.envelope-mode-corona .seal-hotspot {
+  top: 58%;
+  left: 50%;
+}
+.envelope-mode-zoom .seal-hotspot {
+  top: 59%;
+  left: 50%;
+}
+
+/* Sello Desapercibido (100% transparente para dejar ver el sello real filmado) */
+.seal-hotspot.seal-hotspot-discreet {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Desvanecimiento instantáneo al tocar el sello */
+.seal-hotspot.seal-opened {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translate(-50%, -50%) scale(1.15) !important;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.seal-pulse-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 215, 130, 0.6) 0%, rgba(212, 175, 55, 0.2) 60%, transparent 80%);
+  animation: sealPulse 2.4s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes sealPulse {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 12px rgba(230, 185, 75, 0.8));
+  }
+}
+
+.seal-touch-badge {
+  position: absolute;
+  bottom: -36px;
+  white-space: nowrap;
+  background: rgba(26, 18, 10, 0.9);
+  backdrop-filter: blur(8px);
+  color: #f7e6b8;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  animation: floatBadge 2s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0); }
+}
+
+
+/* Nombre del invitado en dorado noble con pan de oro */
+.guest-name-gold-foil {
+  background: linear-gradient(135deg, #8f651c 0%, #b88c3a 35%, #d9b158 65%, #8f651c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.7));
+  letter-spacing: 0.04em;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.22;
+  display: block;
+}
+
+/* Botón Ver Invitación Completa - Compacto con filo dorado champán (Tipo 3) */
+.btn-enter-envelope {
+  background-color: var(--btn-palette-bg, #7e5877);
+  color: #ffffff !important;
+  border-radius: 9999px;
+  padding: 0.46rem 1.45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: var(--font-family-body, 'Montserrat', sans-serif);
+  font-weight: 700;
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid #dfba73;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 3px 10px rgba(84, 53, 80, 0.28);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.btn-enter-envelope:hover {
+  border-color: #f3d79b;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(84, 53, 80, 0.4), 0 0 10px rgba(223, 186, 115, 0.35);
+  filter: brightness(1.05);
+}
+.btn-enter-envelope:focus,
+.btn-enter-envelope:focus-visible {
+  outline: none !important;
+  box-shadow: 0 3px 10px rgba(84, 53, 80, 0.28), 0 0 0 2px rgba(223, 186, 115, 0.5);
+}
+.btn-enter-envelope:active {
+  transform: scale(0.96);
+  outline: none !important;
+}
+
+
+/* Soporte para apertura tanto con .envelope-open como con .envelope-state-open */
+
+.envelope-open .seal-hotspot,
+.envelope-state-open .seal-hotspot {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.7);
+}
+
+/* =========================================================================
+   ESCENARIO DINÁMICO DEL SOBRE (IDÉNTICO A prueba_video_sobre.html)
+   ========================================================================= */
+:root {
+  --seal-top: 58%;
+  --seal-left: 50%;
+}
+
+.stage-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.5s ease;
+}
+
+/* CONTENEDOR DEL VIDEO */
+.video-viewport {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #1c101b;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1), aspect-ratio 0.4s ease;
+  cursor: pointer;
+}
+
+/* Proporción 16:9 para los modos cinemáticos */
+.mode-cine-1 .video-viewport,
+.mode-cine-2 .video-viewport,
+.mode-cine-3 .video-viewport,
+.envelope-mode-corona .video-viewport {
+  aspect-ratio: 16 / 9;
+  max-width: 375px;
+}
+
+/* Proporción para el Modo Enfoque Zoom */
+.mode-zoom .video-viewport,
+.envelope-mode-zoom .video-viewport {
+  aspect-ratio: 4 / 4.8;
+  max-width: 375px;
+}
+
+.envelope-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-position: center center;
+}
+
+.mode-cine-1 .envelope-video,
+.mode-cine-2 .envelope-video,
+.mode-cine-3 .envelope-video,
+.envelope-mode-corona .envelope-video {
+  object-fit: contain;
+}
+
+.mode-zoom .envelope-video,
+.envelope-mode-zoom .envelope-video {
+  object-fit: cover;
+}
+
+/* BOTÓN SOBRE EL SELLO: 100% DESAPERCIBIDO (TRANSPARENTE) */
+.seal-hotspot-video {
+  position: absolute;
+  top: var(--seal-top, 58%);
+  left: var(--seal-left, 50%);
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+}
+
+/* ETIQUETA FLOTANTE NUPCIAL "TOCA EL SELLO PARA ABRIR" */
+.seal-touch-badge {
+  position: absolute;
+  bottom: -22px;
+  white-space: nowrap;
+  background: rgba(22, 13, 20, 0.92);
+  backdrop-filter: blur(8px);
+  color: #fcebc0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(223, 186, 115, 0.55);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.75), 0 0 10px rgba(223, 186, 115, 0.2);
+  pointer-events: none;
+  animation: floatBadge 2s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.seal-hotspot-video.seal-opened {
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) scale(1.15) !important;
+  pointer-events: none !important;
+}
+
+/* LA HOJA WEB PERSONALIZADA (DISEÑO BASE) */
+.open-card-overlay {
+  box-sizing: border-box;
+  width: 94%;
+  max-width: 375px;
+  background: linear-gradient(150deg, #fff9fb 0%, #fbe9ef 50%, #f6dce5 100%);
+  border-radius: 18px;
+  border: 1px solid #dfbccb;
+  box-shadow: 0 20px 45px rgba(45, 18, 40, 0.55), 0 2px 8px rgba(223, 186, 115, 0.25), inset 0 1px 0 #ffffff;
+  padding: 15px 16px;
+  text-align: center;
+  z-index: 40;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  transition: opacity 0.6s ease, transform 0.75s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+/* === CORONA SUPERIOR (Video horizontal 16:9 + Tarjeta que emerge desde abajo hacia arriba) === */
+.mode-cine-3 .stage-wrapper,
+.envelope-mode-corona .stage-wrapper {
+  position: relative;
+}
+.mode-cine-3 .open-card-overlay,
+.envelope-mode-corona .open-card-overlay {
+  position: absolute;
+  bottom: calc(100% + 10px) !important;
+  top: auto !important;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  transform-origin: center bottom;
+  transform: translateY(220px) scale(0.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1.15s cubic-bezier(0.2, 0.95, 0.35, 1), opacity 0.5s ease;
+}
+.mode-cine-3.card-is-active .open-card-overlay,
+.mode-cine-3 .card-is-active .open-card-overlay,
+.card-is-active .mode-cine-3 .open-card-overlay,
+.card-is-active.mode-cine-3 .open-card-overlay,
+.envelope-mode-corona.card-is-active .open-card-overlay,
+.envelope-mode-corona .card-is-active .open-card-overlay,
+.mode-cine-3 .stage-wrapper.card-is-active .open-card-overlay,
+.envelope-mode-corona .stage-wrapper.card-is-active .open-card-overlay {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  animation: coronaRiseFromBottom 1.15s cubic-bezier(0.2, 0.95, 0.35, 1) forwards !important;
+}
+
+@keyframes coronaRiseFromBottom {
+  0% {
+    transform: translateY(220px) scale(0.86);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  55% {
+    opacity: 1;
+  }
+  82% {
+    transform: translateY(-6px) scale(1.01);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* === MODO ENFOQUE ZOOM (Preservado para alternar cuando el usuario desee) === */
+.mode-zoom .stage-wrapper,
+.envelope-mode-zoom .stage-wrapper {
+  position: relative;
+}
+.mode-zoom .open-card-overlay,
+.envelope-mode-zoom .open-card-overlay {
+  position: absolute;
+  bottom: 24px !important;
+  top: auto !important;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  transform-origin: center bottom;
+  transform: translateY(30px) scale(0.93);
+  opacity: 0;
+  pointer-events: none;
+}
+.mode-zoom.card-is-active .open-card-overlay,
+.mode-zoom .card-is-active .open-card-overlay,
+.envelope-mode-zoom.card-is-active .open-card-overlay,
+.envelope-mode-zoom .card-is-active .open-card-overlay {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(-30px) scale(1) !important;
+}
+
+/* Tipografías dentro de la tarjeta */
+.card-kicker {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: #9e7529;
+  font-weight: 700;
+}
+
+.guest-name-gold-foil {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #8f651c 0%, #b88c3a 35%, #d9b158 65%, #8f651c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.22;
+  margin: 2px 0;
+}
+
+.card-passes {
+  font-size: 12px;
+  color: #9e7529;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.card-divider {
+  margin: 10px 0;
+  padding: 8px 0;
+  border-top: 1px solid rgba(216, 172, 187, 0.4);
+  border-bottom: 1px solid rgba(216, 172, 187, 0.4);
+}
+
+.card-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: #543550;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.btn-enter-envelope {
+  background: #7e5877;
+  color: #ffffff !important;
+  border: 1px solid #dfba73;
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 3px 10px rgba(84, 53, 80, 0.3);
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.btn-enter-envelope:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(84, 53, 80, 0.4);
+}
+
+.envelope-mode-zoom.envelope-open .open-card-overlay,
+.envelope-mode-zoom.envelope-state-open .open-card-overlay,
+.envelope-mode-zoom.card-is-active .open-card-overlay {
+  pointer-events: auto;
+  animation: zoomRiseAndSettle 0.95s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+             zoomFloatHover 3.6s ease-in-out 1.0s infinite alternate;
+}
+
+@keyframes zoomRiseAndSettle {
+  0% {
+    transform: translateY(30px) scale(0.93);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(1);
+    opacity: 1;
+    box-shadow: 0 24px 48px rgba(60, 30, 50, 0.42), 0 3px 10px rgba(223, 186, 115, 0.25);
+  }
+}
+
+@keyframes zoomFloatHover {
+  0% {
+    transform: translateY(-30px) scale(1);
+  }
+  100% {
+    transform: translateY(-36px) scale(1);
+  }
+}
+
+/* Respaldo para modo clásico tradicional con fotos fijas */
+.photo-envelope-card:not(.envelope-mode-corona):not(.envelope-mode-zoom).envelope-open .open-card-overlay,
+.photo-envelope-card:not(.envelope-mode-corona):not(.envelope-mode-zoom).envelope-state-open .open-card-overlay {
+  pointer-events: auto;
+  animation: arcRiseAndSettle 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+             hoverFloatCenter 3.6s ease-in-out 1.45s infinite alternate;
+}
+
+@keyframes arcRiseAndSettle {
+  0% {
+    transform: translateY(30px) scale(0.93);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(-56px) scale(1.02);
+  }
+  100% {
+    transform: translateY(-28px) scale(1);
+    opacity: 1;
+    box-shadow: 0 24px 48px rgba(60, 30, 50, 0.42), 0 3px 10px rgba(223, 186, 115, 0.25);
+  }
+}
+
+@keyframes hoverFloatCenter {
+  0% {
+    transform: translateY(-28px) scale(1);
+  }
+  100% {
+    transform: translateY(-34px) scale(1);
+  }
+}
+
+/* Marcos elegantes dorados */
+.elegant-card {
+  background: #ffffff;
+  border: 1px solid var(--border-gold);
+  border-radius: 1.25rem;
+  box-shadow: 0 15px 35px rgba(197, 160, 89, 0.08);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.elegant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(197, 160, 89, 0.14);
+}
+
+.ornament-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.ornament-top-left {
+  top: 10px;
+  left: 10px;
+}
+
+.ornament-top-right {
+  top: 10px;
+  right: 10px;
+  transform: scaleX(-1);
+}
+
+.ornament-bottom-left {
+  bottom: 10px;
+  left: 10px;
+  transform: scaleY(-1);
+}
+
+.ornament-bottom-right {
+  bottom: 10px;
+  right: 10px;
+  transform: scale(-1);
+}
+
+/* Contador */
+.countdown-box {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 8px 20px rgba(197, 160, 89, 0.12);
+  transition: transform 0.25s ease;
+}
+
+.countdown-box:hover {
+  transform: scale(1.05);
+}
+
+/* Botones principales de lujo */
+.btn-gold {
+  background: var(--gold-gradient);
+  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 18px rgba(197, 160, 89, 0.35);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-gold:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 8px 24px rgba(197, 160, 89, 0.45);
+  transform: translateY(-2px);
+}
+
+.btn-outline-gold {
+  background: transparent;
+  border: 1.5px solid var(--primary-gold);
+  color: var(--dark-gold);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-outline-gold:hover {
+  background: var(--primary-gold);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Línea de tiempo itinerario */
+.timeline-item {
+  position: relative;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, #c5a059, #8a9d86);
+  opacity: 0.35;
+}
+
+/* Floating Music Player Button */
+.music-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #6e4c69;
+  color: #6e4c69;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.music-toggle:hover {
+  transform: scale(1.1);
+  background: #6e4c69;
+  color: #ffffff;
+}
+
+.music-toggle.playing {
+  animation: pulse-music 2s infinite ease-in-out;
+}
+
+@keyframes pulse-music {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(110, 76, 105, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(110, 76, 105, 0);
+  }
+}
+
+/* Toast de notificación */
+#toast-notification {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #482d44;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  z-index: 100;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#toast-notification.show-toast {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Pétalos flotantes decorativos */
+.petal {
+  position: fixed;
+  background: radial-gradient(circle, #f1cad3 0%, #d5abb5 100%);
+  border-radius: 150% 0 150% 0;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 5;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    top: -10%;
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    top: 110%;
+    transform: translateX(120px) rotate(360deg);
+  }
+}
+
+/* Ajustes responsive */
+@media (max-width: 640px) {
+  .timeline-line {
+    left: 28px;
+  }
+}
+
+/* ===================================================================
+   SECCIÓN 2: MARCO DE ALTA COSTURA (PADRES Y PADRINOS)
+   Fondo Halo Satinado, Borde Oro Fino (1.5px) y Flores Laterales
+   =================================================================== */
+.card-alta-costura {
+  background: radial-gradient(ellipse at center, #ffffff 0%, #fbf3f8 42%, #f2e2ed 100%);
+  border: 1.5px solid #aa8eaa;
+  border-radius: 30px;
+  box-shadow: 0 14px 40px rgba(110, 76, 105, 0.12), 0 2px 6px rgba(0,0,0,0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.floral-nupcial {
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  filter: contrast(1.08) brightness(1.03);
+  transition: all 0.4s ease;
+}
+
+/* Flor 1: Lateral Izquierdo (junto a la ilustración de novios) */
+.flower-pos-left-novios {
+  position: absolute;
+  left: -20px;
+  top: 15%;
+  width: 135px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Flor 2: Lateral Derecho (junto a la sección de padrinos) */
+.flower-pos-right-padrinos {
+  position: absolute;
+  right: -20px;
+  bottom: 10%;
+  width: 135px;
+  transform: scaleX(-1) scaleY(-1);
+  transform-origin: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .flower-pos-left-novios {
+    width: 165px;
+    left: -26px;
+    top: 14%;
+  }
+  .flower-pos-right-padrinos {
+    width: 165px;
+    right: -26px;
+    bottom: 8%;
+  }
+}
+
+/* ===================================================================
+   EFECTOS FOTOGRÁFICOS TRIDIMENSIONALES (Boda Glenis & Elvis)
+   Paleta: Malva / Ciruela Nupcial (#7e5877) según muestra oficial del usuario
+   Dimensiones: Ancho completo proporcional a los recuadros transparentes (32rem / 512px)
+   =================================================================== */
+
+:root {
+  --border-couple-palette: #7e5877;
+  --border-couple-palette-soft: rgba(126, 88, 119, 0.4);
+  --shadow-couple-palette: 0 18px 45px rgba(110, 76, 105, 0.20), 0 4px 14px rgba(126, 88, 119, 0.15);
+}
+
+/* 1. PRISMA NUPCIAL 3D (PORTADA / HERO) */
+.wedding-prism-scene {
+  width: 100%;
+  max-width: 100%;
+  height: 410px;
+  perspective: 1200px;
+  margin: 1.25rem auto 1.5rem auto;
+  position: relative;
+  cursor: pointer;
+}
+.wedding-prism-rig {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.25s cubic-bezier(0.34, 1.25, 0.64, 1);
+  will-change: transform;
+}
+.wedding-prism-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 2.5px solid var(--border-couple-palette);
+  box-shadow: var(--shadow-couple-palette);
+  background: #faf7f2;
+  backface-visibility: hidden;
+}
+.wedding-prism-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+/* Geometría 3D equilateral adaptada al nuevo ancho proporcional */
+.prism-face-0 { transform: rotateY(0deg) translateZ(135px); }
+.prism-face-1 { transform: rotateY(120deg) translateZ(135px); }
+.prism-face-2 { transform: rotateY(240deg) translateZ(135px); }
+
+@media (max-width: 640px) {
+  .wedding-prism-scene {
+    height: 360px;
+  }
+  .prism-face-0 { transform: rotateY(0deg) translateZ(105px); }
+  .prism-face-1 { transform: rotateY(120deg) translateZ(105px); }
+  .prism-face-2 { transform: rotateY(240deg) translateZ(105px); }
+}
+
+/* Indicadores de puntos en la paleta oficial */
+.prism-dots-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+.prism-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border-couple-palette-soft);
+  border: 1.5px solid var(--border-couple-palette);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.prism-dot.active {
+  background: var(--border-couple-palette);
+  transform: scale(1.35);
+  box-shadow: 0 0 10px rgba(126, 88, 119, 0.6);
+}
+
+/* 2. CAJA JOYERA ORIGAMI 3D (PADRINOS) */
+.wedding-origami-scene {
+  width: 100%;
+  max-width: 32rem; /* Exactamente el mismo ancho del recuadro transparente (512px) */
+  height: 410px;
+  perspective: 1200px;
+  margin: 1.5rem auto;
+  position: relative;
+  cursor: pointer;
+}
+.wedding-origami-box {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+.wedding-origami-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 2.5px solid var(--border-couple-palette);
+  box-shadow: var(--shadow-couple-palette);
+  background: #faf7f2;
+  backface-visibility: hidden;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+  will-change: transform, opacity;
+}
+.wedding-origami-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .wedding-origami-scene {
+    height: 360px;
+  }
+}
+
+/* 3. MEDALLÓN FLOTANTE CON INERCIA DE PÉNDULO (DRESS CODE) */
+.wedding-medallion-scene {
+  width: 100%;
+  max-width: 32rem; /* Exactamente el mismo ancho del recuadro transparente (512px) */
+  height: 410px;
+  perspective: 1200px;
+  margin: 1.5rem auto;
+  position: relative;
+  cursor: pointer;
+}
+.wedding-medallion-rig {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.25s cubic-bezier(0.25, 1.45, 0.5, 1);
+  will-change: transform;
+}
+.wedding-medallion-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 3px double var(--border-couple-palette);
+  box-shadow: var(--shadow-couple-palette);
+  background: #faf7f2;
+  backface-visibility: hidden;
+}
+.wedding-medallion-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+.medallion-face-front { transform: rotateY(0deg); }
+.medallion-face-back { transform: rotateY(180deg); }
+
+@media (max-width: 640px) {
+  .wedding-medallion-scene {
+    height: 360px;
+  }
+}
+
+/* Badge de sugerencia táctil en la paleta oficial */
+.touch-hint-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--border-couple-palette);
+  margin-top: 8px;
+  user-select: none;
+}
+

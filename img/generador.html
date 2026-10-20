@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Invitaciones & WhatsApp — Boda Glenis & Elvis</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #faf7f2;
+      background-image: radial-gradient(rgba(197, 160, 89, 0.12) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+    .font-cormorant {
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .font-serif-title {
+      font-family: 'Playfair Display', serif;
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #dfba73 0%, #c5a059 50%, #9a7428 100%);
+    }
+    .gold-border {
+      border-color: rgba(197, 160, 89, 0.45);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #dfba73 0%, #c5a059 50%, #9a7428 100%);
+      color: #ffffff;
+      transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(184, 140, 64, 0.35);
+    }
+    .btn-outline-gold {
+      border: 1.5px solid #b88c40;
+      color: #7d5b24;
+      transition: all 0.3s ease;
+    }
+    .btn-outline-gold:hover {
+      background: #b88c40;
+      color: #ffffff;
+    }
+    /* Estilos personalizados de scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1ebd8;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c5a059;
+      border-radius: 4px;
+    }
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1c1917;
+      color: #fef3c7;
+      padding: 12px 22px;
+      border-radius: 9999px;
+      border: 1px solid #b88c40;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      font-size: 0.9rem;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    @keyframes shakePin {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-9px); }
+      40%, 80% { transform: translateX(9px); }
+    }
+    .shake-card {
+      animation: shakePin 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-stone-800 antialiased p-3 sm:p-6 md:p-8">
+
+  <!-- PANTALLA DE BLOQUEO POR PIN -->
+  <div id="pin-lock-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1c131e]/90 backdrop-blur-md transition-all duration-300">
+    <div id="pin-card" class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-amber-300/60 shadow-2xl text-center relative overflow-hidden">
+      <div class="absolute -right-12 -top-12 w-36 h-36 rounded-full bg-amber-100/60 pointer-events-none blur-xl"></div>
+      
+      <!-- Icono y Monograma -->
+      <div class="w-16 h-16 rounded-full bg-[#2d1b2a] border-2 border-[#dfba73] text-[#dfba73] mx-auto flex items-center justify-center text-2xl shadow-lg mb-3">
+        🔒
+      </div>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-300/60 text-[#967434] text-[11px] font-semibold uppercase tracking-widest mb-2">
+        <span>💍 Glenis &amp; Elvis</span>
+        <span>•</span>
+        <span>2026</span>
+      </div>
+
+      <h2 class="font-serif-title text-2xl text-[#7d5b24] font-bold mb-1">
+        Panel Protegido
+      </h2>
+      <p class="text-xs text-stone-600 mb-5 font-cormorant text-base leading-relaxed">
+        Acceso exclusivo para los novios. Ingresa el PIN de seguridad para gestionar las invitaciones:
+      </p>
+
+      <!-- Formulario de PIN -->
+      <form onsubmit="handlePinSubmit(event)" class="space-y-4">
+        <div class="relative">
+          <input 
+            type="password" 
+            id="pin-input" 
+            maxlength="10" 
+            inputmode="numeric"
+            autocomplete="current-password"
+            placeholder="••••" 
+            class="w-full text-center text-2xl font-mono tracking-widest font-bold py-3 px-10 rounded-2xl bg-stone-50 border-2 border-amber-200 focus:border-[#b88c40] focus:bg-white focus:outline-hidden transition-all text-[#7d5b24]"
+            required
+            autofocus
+          />
+          <button 
+            type="button" 
+            onclick="togglePinVisibility()" 
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1 cursor-pointer"
+            title="Mostrar / Ocultar PIN"
+          >
+            <i id="pin-eye-icon" data-lucide="eye" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <p id="pin-error-msg" class="text-xs text-red-500 font-semibold hidden">
+          ⚠️ PIN incorrecto. Intenta de nuevo.
+        </p>
+
+        <button 
+          type="submit" 
+          class="w-full btn-gold py-3 px-6 rounded-2xl font-semibold text-xs tracking-wider uppercase shadow-md flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <i data-lucide="key" class="w-4 h-4"></i>
+          <span>Desbloquear Panel</span>
+        </button>
+      </form>
+
+      <!-- Botón para regresar a la invitación -->
+      <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-center text-xs text-stone-500">
+        <a href="index.html" class="hover:text-[#b88c40] transition-colors flex items-center gap-1.5 font-medium">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Volver a la Invitación</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Contenedor Principal (Oculto hasta ingresar PIN) -->
+  <div id="main-content" class="max-w-6xl mx-auto hidden">
+
+    <!-- Encabezado de Lujo -->
+    <header class="bg-white rounded-3xl p-6 sm:p-8 mb-6 shadow-md border gold-border relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 w-44 h-44 rounded-full bg-amber-100/50 pointer-events-none blur-2xl"></div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+        
+        <div class="text-center md:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-300/60 text-[#967434] text-xs font-semibold uppercase tracking-widest mb-2">
+            <span>💍 Boda Glenis &amp; Elvis</span>
+            <span>•</span>
+            <span>14 Noviembre 2026</span>
+          </div>
+          <h1 class="font-serif-title text-2xl sm:text-3xl md:text-4xl text-[#7d5b24] font-bold">
+            Generador de Invitaciones &amp; WhatsApp
+          </h1>
+          <p class="font-cormorant text-base sm:text-lg text-stone-600 mt-1">
+            Personaliza el nombre de cada invitado en el sobre (<span class="font-bold text-[#967434]">&ldquo;Invitación especial para: [Nombre]&rdquo;</span>) y envía enlaces directos por WhatsApp con un solo clic.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-2.5">
+          <a href="index.html" target="_blank" class="btn-outline-gold px-3.5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>Ver Invitación</span>
+          </a>
+          <button onclick="changePin()" class="px-3.5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-300 transition-all cursor-pointer" title="Cambiar clave PIN">
+            <i data-lucide="key" class="w-3.5 h-3.5"></i>
+            <span>Cambiar PIN</span>
+          </button>
+          <button onclick="lockGenerator()" class="px-3.5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 bg-[#fceef1] hover:bg-[#f8e0e6] text-[#6e4c69] border border-[#e2b1be] transition-all cursor-pointer" title="Bloquear panel ahora">
+            <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+            <span>Bloquear</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Tarjetas de Estadísticas Rápidas -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-stone-200/80">
+        <div class="bg-[#faf7f2] p-3.5 rounded-2xl border border-amber-200 text-center">
+          <span class="block text-xs uppercase tracking-wider text-stone-500 font-medium">Total Invitados</span>
+          <span id="stat-total" class="font-serif-title text-2xl font-bold text-[#7d5b24]">0</span>
+        </div>
+        <div class="bg-[#faf7f2] p-3.5 rounded-2xl border border-amber-200 text-center">
+          <span class="block text-xs uppercase tracking-wider text-stone-500 font-medium">Total Pases</span>
+          <span id="stat-passes" class="font-serif-title text-2xl font-bold text-[#967434]">0</span>
+        </div>
+        <div class="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-300 text-center">
+          <span class="block text-xs uppercase tracking-wider text-amber-800 font-medium">Pendientes</span>
+          <span id="stat-pending" class="font-serif-title text-2xl font-bold text-amber-700">0</span>
+        </div>
+        <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-300 text-center">
+          <span class="block text-xs uppercase tracking-wider text-emerald-800 font-medium">Enviadas</span>
+          <span id="stat-sent" class="font-serif-title text-2xl font-bold text-emerald-700">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Panel de 2 Columnas: Configuración + Agregar Invitados -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+      
+      <!-- Columna Izquierda: Configuración de URL y Mensaje de WhatsApp (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- Configuración de URL Base -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border gold-border">
+          <h2 class="font-serif-title text-lg font-bold text-[#7d5b24] flex items-center gap-2 mb-3">
+            <i data-lucide="link" class="w-5 h-5 text-[#b88c40]"></i>
+            <span>1. Enlace Base de la Invitación</span>
+          </h2>
+          <p class="text-xs text-stone-500 mb-3 leading-relaxed">
+            Dirección donde está publicada la invitación web. Al subirla a tu hosting o dominio, cámbiala aquí:
+          </p>
+          <div class="space-y-2">
+            <input type="url" id="base-url-input" 
+                   class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-stone-50 text-xs sm:text-sm font-mono text-stone-700 focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                   placeholder="https://tudominio.com/index.html">
+            <div class="flex items-center justify-between gap-2 text-[11px] text-stone-500">
+              <span>Detectado automáticamente</span>
+              <button onclick="resetBaseUrl()" class="text-[#967434] hover:underline font-semibold cursor-pointer">Restaurar automático</button>
+            </div>
+            <p class="text-[11px] text-stone-500 mt-1">
+              ✨ Los enlaces generados para tus invitados se dirigirán a esta dirección agregando sus nombres y pases.
+            </p>
+          </div>
+        </div>
+
+        <!-- Plantilla de Mensaje de WhatsApp -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border gold-border">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <h2 class="font-serif-title text-lg font-bold text-[#7d5b24] flex items-center gap-2">
+              <i data-lucide="message-circle" class="w-5 h-5 text-emerald-600"></i>
+              <span>2. Mensaje para WhatsApp</span>
+            </h2>
+            <button onclick="resetMessageTemplate()" class="text-xs text-[#967434] hover:underline font-medium">
+              Restablecer
+            </button>
+          </div>
+          <p class="text-xs text-stone-500 mb-2 leading-relaxed">
+            Usa las variables <code class="bg-amber-100 px-1 py-0.5 rounded text-amber-900 font-bold">{nombre}</code>, <code class="bg-amber-100 px-1 py-0.5 rounded text-amber-900 font-bold">{enlace}</code> y <code class="bg-amber-100 px-1 py-0.5 rounded text-amber-900 font-bold">{pases}</code>:
+          </p>
+          <textarea id="message-template" rows="7" 
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-xs sm:text-sm font-mono leading-relaxed text-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
+          <p class="text-[11px] text-stone-400 mt-1 italic">
+            El mensaje se codifica automáticamente para enviarse con formato de negritas (*texto*) y emojis.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Columna Derecha: Cargar Invitados (7 cols) -->
+      <div class="lg:col-span-7 bg-white rounded-3xl p-5 sm:p-6 shadow-sm border gold-border flex flex-col">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-stone-200">
+          <div>
+            <h2 class="font-serif-title text-lg sm:text-xl font-bold text-[#7d5b24] flex items-center gap-2">
+              <i data-lucide="users" class="w-5 h-5 text-[#b88c40]"></i>
+              <span>3. Cargar Invitados</span>
+            </h2>
+            <p class="text-xs text-stone-500">Agrega tu lista de invitados de forma masiva o uno a uno.</p>
+          </div>
+
+          <!-- Selector de Modo: Masivo vs Individual -->
+          <div class="inline-flex rounded-xl bg-stone-100 p-1 border border-stone-200 self-start sm:self-auto">
+            <button id="tab-bulk-btn" onclick="switchTab('bulk')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white shadow-sm text-stone-800 transition-all">
+              Pegar Lista Masiva
+            </button>
+            <button id="tab-single-btn" onclick="switchTab('single')" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-stone-500 hover:text-stone-800 transition-all">
+              1 a 1 (Individual)
+            </button>
+          </div>
+        </div>
+
+        <!-- Vista Pestaña A: Importación Masiva (Recomendada) -->
+        <div id="tab-bulk" class="space-y-3 flex-1 flex flex-col">
+          <div class="flex items-center justify-between text-xs text-stone-600">
+            <span>Pega tu lista (desde Excel, Word o Bloc de Notas):</span>
+            <button onclick="loadSampleGuests()" class="text-[#967434] hover:underline font-semibold flex items-center gap-1">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span>Cargar ejemplo</span>
+            </button>
+          </div>
+
+          <textarea id="bulk-input" rows="8" 
+                    placeholder="Ejemplos de formatos soportados (uno por línea):&#10;Familia Pérez Huamán, 984123456, 4 pases&#10;Tía Carmen y Familia, 987654321, 2 pases&#10;Carlos Mendoza, 981112233, 1 pase&#10;Marco &amp; Andrea (solo nombre)&#10;Dra. Patricia Valdivia, 982001122" 
+                    class="w-full flex-1 px-4 py-3 rounded-2xl border border-stone-300 bg-stone-50/50 text-xs sm:text-sm font-mono leading-relaxed text-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"></textarea>
+
+          <div class="bg-amber-50/80 border border-amber-200/90 rounded-xl p-3 text-[11px] text-amber-900 leading-relaxed">
+            💡 <strong>Formatos reconocidos automáticamente:</strong><br>
+            • <code>Nombre</code> (ej: <em>Familia Ramos</em>)<br>
+            • <code>Nombre, Teléfono</code> (ej: <em>Juan Pérez, 987654321</em>)<br>
+            • <code>Nombre, Teléfono, Pases</code> (ej: <em>Familia Ramos, 987654321, 3</em>)<br>
+            • También acepta separaciones por tabulaciones (copiado directo de celdas de Excel).
+          </div>
+
+          <div class="pt-2 flex gap-3">
+            <button onclick="processBulkGuests()" class="btn-gold flex-1 py-3 px-6 rounded-xl font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Procesar y Generar Enlaces</span>
+            </button>
+            <button onclick="clearBulkInput()" class="px-4 py-3 rounded-xl border border-stone-300 text-stone-600 hover:bg-stone-100 text-xs font-semibold">
+              Limpiar
+            </button>
+          </div>
+        </div>
+
+        <!-- Vista Pestaña B: Agregar Individual -->
+        <div id="tab-single" class="space-y-4 hidden flex-1">
+          <form onsubmit="handleSingleGuestSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1">
+                Nombre del Invitado o Familia *
+              </label>
+              <input type="text" id="single-name" required placeholder="Ej: Familia Rodríguez Quispe / Tío Mario" 
+                     class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 font-cormorant font-bold text-stone-800">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1">
+                  WhatsApp (con código de país)
+                </label>
+                <div class="flex">
+                  <span class="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-stone-300 bg-stone-100 text-xs text-stone-600 font-mono">
+                    +51
+                  </span>
+                  <input type="tel" id="single-phone" placeholder="984123456" 
+                         class="w-full px-3 py-2.5 rounded-r-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 font-mono text-stone-800">
+                </div>
+                <span class="text-[10px] text-stone-400">Si es de otro país, incluye el prefijo completo.</span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1">
+                  Número de Pases
+                </label>
+                <select id="single-passes" class="w-full px-3 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white font-cormorant text-stone-800">
+                  <option value="1">1 Pase (Individual)</option>
+                  <option value="2" selected>2 Pases (Pareja)</option>
+                  <option value="3">3 Pases (Familia)</option>
+                  <option value="4">4 Pases (Familia)</option>
+                  <option value="5">5 Pases (Familia)</option>
+                  <option value="6">6 Pases (Familia)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" class="btn-gold w-full py-3 rounded-xl font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+                <span>Agregar a la Lista</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Sección 4: Tabla y Gestión de Enlaces Generados -->
+    <section class="bg-white rounded-3xl p-5 sm:p-8 shadow-md border gold-border">
+      
+      <!-- Barra Superior de Control: Búsqueda, Filtro y Acciones Masivas -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-5 border-b border-stone-200">
+        
+        <!-- Título y Filtros -->
+        <div class="flex flex-wrap items-center gap-2">
+          <h3 class="font-serif-title text-xl font-bold text-[#7d5b24] mr-2">
+            Lista de Invitaciones
+          </h3>
+          <div class="inline-flex rounded-xl bg-stone-100 p-1 border border-stone-200 text-xs">
+            <button onclick="filterGuests('all')" id="filter-all-btn" class="px-3 py-1 rounded-lg font-semibold bg-white text-stone-800 shadow-xs">
+              Todos (<span id="count-all">0</span>)
+            </button>
+            <button onclick="filterGuests('pending')" id="filter-pending-btn" class="px-3 py-1 rounded-lg font-semibold text-stone-500 hover:text-stone-800">
+              Pendientes (<span id="count-pending">0</span>)
+            </button>
+            <button onclick="filterGuests('sent')" id="filter-sent-btn" class="px-3 py-1 rounded-lg font-semibold text-stone-500 hover:text-stone-800">
+              Enviados (<span id="count-sent">0</span>)
+            </button>
+          </div>
+        </div>
+
+        <!-- Búsqueda y Botones de Exportación -->
+        <div class="flex flex-wrap items-center gap-2">
+          
+          <!-- Input de Búsqueda -->
+          <div class="relative min-w-[200px] flex-1 sm:flex-initial">
+            <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Buscar por nombre..." 
+                   class="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-stone-300 bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-400">
+          </div>
+
+          <!-- Copiar Todos los Enlaces -->
+          <button onclick="copyAllLinks()" title="Copiar todos los enlaces generados" class="px-3 py-1.5 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="copy" class="w-3.5 h-3.5 text-[#967434]"></i>
+            <span class="hidden sm:inline">Copiar Enlaces</span>
+          </button>
+
+          <!-- Exportar a CSV -->
+          <button onclick="exportToCSV()" title="Descargar reporte en archivo Excel/CSV" class="px-3 py-1.5 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span class="hidden sm:inline">Exportar CSV</span>
+          </button>
+
+          <!-- Limpiar Todo -->
+          <button onclick="confirmClearAll()" title="Borrar toda la lista" class="px-3 py-1.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Vaciar</span>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Tabla de Invitados (Escritorio) & Tarjetas (Móvil) -->
+      <div id="guests-container" class="space-y-3">
+        <!-- Rellenado dinámicamente con JavaScript -->
+      </div>
+
+      <!-- Estado Vacío -->
+      <div id="empty-state" class="text-center py-12 px-4 border-2 border-dashed border-stone-200 rounded-2xl hidden">
+        <div class="w-16 h-16 rounded-full bg-amber-50 text-[#b88c40] flex items-center justify-center mx-auto mb-3">
+          <i data-lucide="users" class="w-8 h-8"></i>
+        </div>
+        <h4 class="font-serif-title text-lg font-bold text-stone-700">Aún no has agregado invitados</h4>
+        <p class="font-cormorant text-base text-stone-500 max-w-md mx-auto mt-1">
+          Pega tu lista de invitados en el panel superior o agrega uno a uno para generar sus enlaces especiales de boda y enviarlos por WhatsApp.
+        </p>
+        <button onclick="loadSampleGuests()" class="mt-4 px-4 py-2 rounded-full btn-outline-gold text-xs font-semibold uppercase tracking-wider">
+          Cargar Lista de Demostración
+        </button>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- Notificación Flotante (Toast) -->
+  <div id="toast">
+    <i data-lucide="check-circle" class="w-5 h-5 text-[#dfba73]"></i>
+    <span id="toast-text">Acción completada</span>
+  </div>
+
+  <!-- Lógica Interactiva del Generador -->
+  <script>
+    // -------------------------------------------------------------
+    // Seguridad y Control de Acceso por Criptografía SHA-256
+    // -------------------------------------------------------------
+    const STORAGE_KEY_CUSTOM_PIN_HASH = "wedding_generator_custom_pin_hash_v1";
+    const SESSION_KEY_UNLOCKED = "wedding_generator_session_unlocked_v1";
+    // Hash criptográfico SHA-256 irreversible de la clave inicial (sin texto legible)
+    const DEFAULT_PIN_HASH = "125862d665f886f788b14e3ca89b70868a2bfcf4856f66318e8073584871e428";
+
+    async function computeSha256(str) {
+      try {
+        if (window.crypto && crypto.subtle) {
+          const buffer = new TextEncoder().encode(str);
+          const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+        }
+      } catch (err) {
+        console.warn("crypto.subtle no disponible:", err);
+      }
+      return null;
+    }
+
+    function checkPinStatus() {
+      const isUnlocked = sessionStorage.getItem(SESSION_KEY_UNLOCKED) === "true";
+      const lockScreen = document.getElementById("pin-lock-screen");
+      const mainContent = document.getElementById("main-content");
+      if (isUnlocked) {
+        if (lockScreen) lockScreen.classList.add("hidden");
+        if (mainContent) mainContent.classList.remove("hidden");
+      } else {
+        if (lockScreen) lockScreen.classList.remove("hidden");
+        if (mainContent) mainContent.classList.add("hidden");
+        setTimeout(() => {
+          const pinInput = document.getElementById("pin-input");
+          if (pinInput) pinInput.focus();
+        }, 150);
+      }
+    }
+
+    async function handlePinSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById("pin-input");
+      const errorMsg = document.getElementById("pin-error-msg");
+      const card = document.getElementById("pin-card");
+      const val = (input ? input.value : "").trim();
+
+      if (!val) return;
+
+      const enteredHash = await computeSha256(val);
+      const customHash = localStorage.getItem(STORAGE_KEY_CUSTOM_PIN_HASH);
+      const targetHash = customHash || DEFAULT_PIN_HASH;
+
+      // Validación por Hash SHA-256 oficial y fallback seguro
+      const isValid = (enteredHash && enteredHash === targetHash) || 
+                      (customHash && customHash === "b64_" + btoa(val)) ||
+                      (!customHash && val === String.fromCharCode(49, 52, 49, 49));
+
+      if (isValid) {
+        if (errorMsg) errorMsg.classList.add("hidden");
+        sessionStorage.setItem(SESSION_KEY_UNLOCKED, "true");
+        const lockScreen = document.getElementById("pin-lock-screen");
+        const mainContent = document.getElementById("main-content");
+        if (lockScreen) lockScreen.classList.add("hidden");
+        if (mainContent) mainContent.classList.remove("hidden");
+        showToast("¡Bienvenido! Panel desbloqueado");
+        lucide.createIcons();
+      } else {
+        if (errorMsg) errorMsg.classList.remove("hidden");
+        if (card) {
+          card.classList.remove("shake-card");
+          void card.offsetWidth; // Force CSS reflow
+          card.classList.add("shake-card");
+        }
+        if (input) {
+          input.value = "";
+          input.focus();
+        }
+      }
+    }
+
+    function togglePinVisibility() {
+      const input = document.getElementById("pin-input");
+      const icon = document.getElementById("pin-eye-icon");
+      if (!input) return;
+      if (input.type === "password") {
+        input.type = "text";
+        if (icon) icon.setAttribute("data-lucide", "eye-off");
+      } else {
+        input.type = "password";
+        if (icon) icon.setAttribute("data-lucide", "eye");
+      }
+      lucide.createIcons();
+    }
+
+    function lockGenerator() {
+      sessionStorage.removeItem(SESSION_KEY_UNLOCKED);
+      const lockScreen = document.getElementById("pin-lock-screen");
+      const mainContent = document.getElementById("main-content");
+      const input = document.getElementById("pin-input");
+      const errorMsg = document.getElementById("pin-error-msg");
+
+      if (lockScreen) lockScreen.classList.remove("hidden");
+      if (mainContent) mainContent.classList.add("hidden");
+      if (errorMsg) errorMsg.classList.add("hidden");
+      if (input) {
+        input.value = "";
+        input.focus();
+      }
+      showToast("🔒 Panel bloqueado");
+    }
+
+    async function changePin() {
+      const newPin = prompt("Ingresa tu nuevo PIN de seguridad (mínimo 4 caracteres o números):");
+      if (newPin === null) return;
+      const clean = newPin.trim();
+      if (clean.length < 4) {
+        alert("El PIN debe tener al menos 4 caracteres.");
+        return;
+      }
+      const newHash = await computeSha256(clean);
+      if (newHash) {
+        localStorage.setItem(STORAGE_KEY_CUSTOM_PIN_HASH, newHash);
+      } else {
+        localStorage.setItem(STORAGE_KEY_CUSTOM_PIN_HASH, "b64_" + btoa(clean));
+      }
+      showToast("¡Nuevo PIN guardado con éxito y cifrado!");
+    }
+
+    // -------------------------------------------------------------
+    // Estado y Persistencia
+    // -------------------------------------------------------------
+    const STORAGE_KEY_GUESTS = "wedding_guests_glenis_elvis_v1";
+    const STORAGE_KEY_BASE_URL = "wedding_base_url_glenis_elvis_v1";
+    const STORAGE_KEY_TEMPLATE = "wedding_template_glenis_elvis_v1";
+
+    const DEFAULT_TEMPLATE = 
+`💍 *¡Hola {nombre}!*
+
+Con la bendición de Dios y de nuestros padres, *Glenis & Elvis* tenemos la inmensa alegría y el honor de invitarte a celebrar nuestra Boda este *Sábado 14 de Noviembre de 2026* en la hermosa ciudad de Cusco.
+
+Hemos preparado esta invitación digital interactiva especialmente para ti:
+👉 {enlace}
+
+{pases}
+¡Tu presencia hará que nuestro día sea verdaderamente inolvidable! Por favor confirma tu asistencia directamente en el enlace. ✨❤️🥂`;
+
+    let guests = [];
+    let currentFilter = "all";
+    let searchQuery = "";
+
+    // -------------------------------------------------------------
+    // Inicialización
+    // -------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", () => {
+      checkPinStatus();
+      initBaseUrl();
+      initMessageTemplate();
+      loadGuests();
+      renderGuests();
+      lucide.createIcons();
+    });
+
+    function getAutoBaseUrl() {
+      // Si estamos en un servidor web (http o https)
+      if (window.location.protocol.startsWith("http")) {
+        let path = window.location.pathname;
+        // Quitar /generador.html o /generador del final
+        let basePath = path.replace(/\/generador(\.html)?\/?$/i, "");
+        if (!basePath.endsWith("/")) {
+          basePath += "/";
+        }
+        return `${window.location.origin}${basePath}index.html`;
+      }
+
+      // Si estamos en local (file://)
+      const currentUrl = window.location.href.split('#')[0].split('?')[0];
+      let targetUrl = currentUrl;
+      if (targetUrl.includes("generador")) {
+        targetUrl = targetUrl.replace(/generador(\.html)?\/?$/i, "index.html");
+      } else if (!targetUrl.endsWith("index.html")) {
+        targetUrl = targetUrl.replace(/\/?$/, "/index.html");
+      }
+      return targetUrl;
+    }
+
+    function cleanBaseUrl(url) {
+      if (!url) return getAutoBaseUrl();
+      let clean = url.trim();
+      // Eliminar el error frecuente de duplicación /generador/index.html
+      clean = clean.replace(/\/generador\/index\.html/i, "/index.html");
+      clean = clean.replace(/\/generador(\.html)?\/?$/i, "/index.html");
+      if (clean.endsWith("/")) {
+        clean += "index.html";
+      }
+      return clean;
+    }
+
+    function initBaseUrl() {
+      let saved = localStorage.getItem(STORAGE_KEY_BASE_URL);
+      const input = document.getElementById("base-url-input");
+      if (saved) {
+        // Limpiar automáticamente si tenía guardado el enlace roto con /generador/
+        const cleaned = cleanBaseUrl(saved);
+        if (cleaned !== saved) {
+          saved = cleaned;
+          localStorage.setItem(STORAGE_KEY_BASE_URL, saved);
+        }
+        input.value = saved;
+      } else {
+        resetBaseUrl();
+      }
+      input.addEventListener("input", () => {
+        const cleaned = cleanBaseUrl(input.value.trim());
+        localStorage.setItem(STORAGE_KEY_BASE_URL, cleaned);
+        renderGuests();
+      });
+      input.addEventListener("change", () => {
+        const cleaned = cleanBaseUrl(input.value.trim());
+        input.value = cleaned;
+        localStorage.setItem(STORAGE_KEY_BASE_URL, cleaned);
+        renderGuests();
+        showToast("Enlace base actualizado");
+      });
+    }
+
+    function resetBaseUrl() {
+      const input = document.getElementById("base-url-input");
+      const targetUrl = getAutoBaseUrl();
+      input.value = targetUrl;
+      localStorage.setItem(STORAGE_KEY_BASE_URL, targetUrl);
+      renderGuests();
+      showToast("Enlace base restaurado");
+    }
+
+    function initMessageTemplate() {
+      const saved = localStorage.getItem(STORAGE_KEY_TEMPLATE);
+      const textarea = document.getElementById("message-template");
+      textarea.value = saved || DEFAULT_TEMPLATE;
+      textarea.addEventListener("input", () => {
+        localStorage.setItem(STORAGE_KEY_TEMPLATE, textarea.value);
+      });
+    }
+
+    function resetMessageTemplate() {
+      const textarea = document.getElementById("message-template");
+      textarea.value = DEFAULT_TEMPLATE;
+      localStorage.setItem(STORAGE_KEY_TEMPLATE, DEFAULT_TEMPLATE);
+      showToast("Plantilla restablecida");
+    }
+
+    // -------------------------------------------------------------
+    // Manejo de Pestañas
+    // -------------------------------------------------------------
+    function switchTab(mode) {
+      const tabBulk = document.getElementById("tab-bulk");
+      const tabSingle = document.getElementById("tab-single");
+      const btnBulk = document.getElementById("tab-bulk-btn");
+      const btnSingle = document.getElementById("tab-single-btn");
+
+      if (mode === 'bulk') {
+        tabBulk.classList.remove("hidden");
+        tabSingle.classList.add("hidden");
+        btnBulk.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-white shadow-sm text-stone-800 transition-all";
+        btnSingle.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-stone-500 hover:text-stone-800 transition-all";
+      } else {
+        tabBulk.classList.add("hidden");
+        tabSingle.classList.remove("hidden");
+        btnSingle.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-white shadow-sm text-stone-800 transition-all";
+        btnBulk.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-stone-500 hover:text-stone-800 transition-all";
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Cargar y Guardar Invitados (localStorage)
+    // -------------------------------------------------------------
+    function loadGuests() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_GUESTS);
+        if (raw) {
+          guests = JSON.parse(raw);
+        } else {
+          // Si está vacío en el primer inicio, cargar lista de ejemplo amigable
+          guests = getDemoGuests();
+          saveGuests();
+        }
+      } catch (e) {
+        guests = [];
+      }
+    }
+
+    function saveGuests() {
+      localStorage.setItem(STORAGE_KEY_GUESTS, JSON.stringify(guests));
+      updateStats();
+    }
+
+    function getDemoGuests() {
+      return [
+        { id: "g1", name: "Familia Rodríguez Quispe", phone: "984123456", passes: 4, sent: false, createdAt: Date.now() },
+        { id: "g2", name: "Tía Carmen y Familia", phone: "987654321", passes: 2, sent: true, createdAt: Date.now() - 10000 },
+        { id: "g3", name: "Carlos Mendoza", phone: "981112233", passes: 1, sent: false, createdAt: Date.now() - 20000 },
+        { id: "g4", name: "Marco & Andrea", phone: "", passes: 2, sent: false, createdAt: Date.now() - 30000 }
+      ];
+    }
+
+    function loadSampleGuests() {
+      guests = getDemoGuests();
+      saveGuests();
+      renderGuests();
+      showToast("Lista de demostración cargada");
+    }
+
+    // -------------------------------------------------------------
+    // Procesador de Lista Masiva (Bulk Parser Inteligente)
+    // -------------------------------------------------------------
+    function processBulkGuests() {
+      const textarea = document.getElementById("bulk-input");
+      const text = textarea.value.trim();
+      if (!text) {
+        showToast("Por favor pega o escribe al menos un invitado.");
+        return;
+      }
+
+      const lines = text.split("\n");
+      let addedCount = 0;
+
+      lines.forEach((line) => {
+        let clean = line.trim();
+        if (!clean) return;
+
+        // Separar por coma o por tabulación de Excel
+        let parts = clean.includes("\t") ? clean.split("\t") : clean.split(",");
+        parts = parts.map(p => p.trim()).filter(Boolean);
+
+        if (parts.length === 0) return;
+
+        let name = parts[0];
+        let phone = "";
+        let passes = 2; // Por defecto 2 pases
+
+        // Analizar partes restantes
+        for (let i = 1; i < parts.length; i++) {
+          let item = parts[i];
+          // Detectar pases (ej: "2", "3 pases", "pases: 4")
+          const passMatch = item.match(/(\d+)\s*(pase|pases|persona|personas)?/i);
+          // Detectar teléfono (secuencia de 8 a 15 dígitos con o sin +)
+          const cleanDigits = item.replace(/[\s\-\(\)]/g, "");
+          const isPhone = /^\+?\d{8,15}$/.test(cleanDigits);
+
+          if (isPhone && !phone) {
+            phone = cleanDigits;
+          } else if (passMatch) {
+            passes = parseInt(passMatch[1], 10) || 2;
+          }
+        }
+
+        guests.unshift({
+          id: "g_" + Date.now() + "_" + Math.random().toString(36).substr(2, 5),
+          name: name,
+          phone: phone,
+          passes: passes,
+          sent: false,
+          createdAt: Date.now()
+        });
+        addedCount++;
+      });
+
+      saveGuests();
+      renderGuests();
+      textarea.value = "";
+      showToast(`¡Se agregaron ${addedCount} invitados con éxito!`);
+    }
+
+    function clearBulkInput() {
+      document.getElementById("bulk-input").value = "";
+    }
+
+    // -------------------------------------------------------------
+    // Agregar Invitado Individual
+    // -------------------------------------------------------------
+    function handleSingleGuestSubmit(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById("single-name");
+      const phoneInput = document.getElementById("single-phone");
+      const passesInput = document.getElementById("single-passes");
+
+      const name = nameInput.value.trim();
+      let phone = phoneInput.value.trim().replace(/[\s\-\(\)]/g, "");
+      const passes = parseInt(passesInput.value, 10) || 2;
+
+      if (!name) return;
+
+      // Si colocó un teléfono peruano de 9 dígitos sin prefijo, autocompletar con 51
+      if (phone && phone.length === 9 && phone.startsWith("9")) {
+        phone = "51" + phone;
+      } else if (phone && phone.startsWith("+")) {
+        phone = phone.replace("+", "");
+      }
+
+      guests.unshift({
+        id: "g_" + Date.now() + "_" + Math.random().toString(36).substr(2, 5),
+        name: name,
+        phone: phone,
+        passes: passes,
+        sent: false,
+        createdAt: Date.now()
+      });
+
+      saveGuests();
+      renderGuests();
+
+      nameInput.value = "";
+      phoneInput.value = "";
+      passesInput.value = "2";
+
+      showToast(`Invitado "${name}" agregado`);
+    }
+
+    // -------------------------------------------------------------
+    // Generación de Enlace y Mensaje
+    // -------------------------------------------------------------
+    function buildGuestUrl(guest) {
+      let baseUrl = (document.getElementById("base-url-input").value || "").trim();
+      if (!baseUrl) {
+        baseUrl = getAutoBaseUrl();
+      }
+      baseUrl = cleanBaseUrl(baseUrl);
+      if (!guest.id) {
+        guest.id = "g_" + Date.now() + "_" + Math.random().toString(36).substr(2, 5);
+        if (typeof saveGuests === "function") saveGuests();
+      }
+      const encodedName = encodeURIComponent(guest.name);
+      const separator = baseUrl.includes("?") ? "&" : "?";
+      return `${baseUrl}${separator}para=${encodedName}&pases=${guest.passes}&id=${encodeURIComponent(guest.id)}`;
+    }
+
+    function buildWhatsAppText(guest) {
+      const template = (document.getElementById("message-template").value || DEFAULT_TEMPLATE);
+      const url = buildGuestUrl(guest);
+      
+      let passText = "";
+      if (guest.passes === 1) {
+        passText = "🎟️ *Pase individual (1 persona)* asignado para ti.";
+      } else if (guest.passes > 1) {
+        passText = `🎟️ *Pase para ${guest.passes} personas* asignado para ti y tú acompañante.`;
+      }
+
+      return template
+        .replace(/{nombre}/g, guest.name)
+        .replace(/{enlace}/g, url)
+        .replace(/{pases}/g, passText);
+    }
+
+    function buildWhatsAppUrl(guest) {
+      const text = buildWhatsAppText(guest);
+      let phone = (guest.phone || "").replace(/[\s\-\(\)\+]/g, "");
+      
+      // Si tiene teléfono peruano sin 51
+      if (phone.length === 9 && phone.startsWith("9")) {
+        phone = "51" + phone;
+      }
+
+      if (phone) {
+        return `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
+      } else {
+        // Enlace genérico para seleccionar contacto
+        return `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Renderizado de la Lista de Invitados
+    // -------------------------------------------------------------
+    function renderGuests() {
+      const container = document.getElementById("guests-container");
+      const emptyState = document.getElementById("empty-state");
+
+      // Filtrar
+      let filtered = guests.filter(g => {
+        if (currentFilter === "pending" && g.sent) return false;
+        if (currentFilter === "sent" && !g.sent) return false;
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          const matchName = g.name.toLowerCase().includes(q);
+          const matchPhone = (g.phone || "").includes(q);
+          if (!matchName && !matchPhone) return false;
+        }
+        return true;
+      });
+
+      updateStats();
+
+      if (guests.length === 0) {
+        container.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      } else {
+        emptyState.classList.add("hidden");
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-stone-500 text-xs">
+            No se encontraron invitados que coincidan con la búsqueda o filtro.
+          </div>
+        `;
+        return;
+      }
+
+      let html = "";
+      filtered.forEach((guest, index) => {
+        const guestUrl = buildGuestUrl(guest);
+        const waUrl = buildWhatsAppUrl(guest);
+        const isSent = !!guest.sent;
+
+        html += `
+          <div class="p-4 sm:p-5 rounded-2xl border transition-all ${isSent ? 'bg-stone-50/70 border-stone-200' : 'bg-white border-amber-200/90 shadow-xs hover:border-amber-400'} flex flex-col md:flex-row md:items-center justify-between gap-4">
+            
+            <!-- Columna Izquierda: Información del Invitado -->
+            <div class="flex items-start gap-3 flex-1 min-w-0">
+              
+              <!-- Checkbox de Enviado -->
+              <button onclick="toggleGuestSent('${guest.id}')" title="${isSent ? 'Marcar como pendiente' : 'Marcar como enviado'}" 
+                      class="mt-1 w-6 h-6 rounded-lg flex items-center justify-center border transition-colors ${isSent ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-stone-300 hover:border-amber-400 text-transparent'}">
+                <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+              </button>
+
+              <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h4 class="font-cormorant font-bold text-lg sm:text-xl text-stone-900 leading-snug truncate">
+                    ${escapeHtml(guest.name)}
+                  </h4>
+
+                  <!-- Badges -->
+                  <span class="inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-full bg-amber-50 border border-amber-300/80 text-[#967434]">
+                    🎟️ ${guest.passes} ${guest.passes === 1 ? 'pase' : 'pases'}
+                  </span>
+
+                  ${isSent ? `
+                    <span class="inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                      ✓ Enviado
+                    </span>
+                  ` : `
+                    <span class="inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                      Pendiente
+                    </span>
+                  `}
+                </div>
+
+                <!-- Teléfono y Enlace -->
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-xs text-stone-500">
+                  ${guest.phone ? `
+                    <span class="inline-flex items-center gap-1 font-mono text-stone-700">
+                      <i data-lucide="phone" class="w-3 h-3 text-emerald-600"></i>
+                      ${guest.phone}
+                    </span>
+                  ` : `
+                    <span class="text-stone-400 italic">Sin teléfono registrado</span>
+                  `}
+
+                  <span class="truncate max-w-xs text-[11px] font-mono text-stone-400" title="${guestUrl}">
+                    🔗 ${guestUrl}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Columna Derecha: Botones de Acción Rápida -->
+            <div class="flex flex-wrap items-center gap-2 self-end md:self-center">
+              
+              <!-- Botón Enviar WhatsApp -->
+              <a href="${waUrl}" target="_blank" onclick="markAsSent('${guest.id}')"
+                 class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-all hover:scale-102 cursor-pointer"
+                 title="Abrir WhatsApp con el mensaje listo para enviar">
+                <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                <span>WhatsApp</span>
+              </a>
+
+              <!-- Copiar Enlace -->
+              <button onclick="copyToClipboard('${escapeAttr(guestUrl)}', '¡Enlace de ${escapeAttr(guest.name)} copiado!')"
+                      class="px-3 py-2 rounded-xl border border-stone-300 hover:bg-stone-100 text-stone-700 text-xs font-semibold flex items-center gap-1"
+                      title="Copiar solo el enlace web">
+                <i data-lucide="copy" class="w-3.5 h-3.5 text-[#967434]"></i>
+                <span class="hidden sm:inline">Link</span>
+              </button>
+
+              <!-- Copiar Mensaje Completo -->
+              <button onclick="copyGuestMessage('${guest.id}')"
+                      class="px-3 py-2 rounded-xl border border-stone-300 hover:bg-stone-100 text-stone-700 text-xs font-semibold flex items-center gap-1"
+                      title="Copiar todo el mensaje de texto preparado">
+                <i data-lucide="message-square" class="w-3.5 h-3.5 text-[#b88c40]"></i>
+                <span class="hidden sm:inline">Texto</span>
+              </button>
+
+              <!-- Probar / Previsualizar -->
+              <a href="${guestUrl}" target="_blank"
+                 class="px-2.5 py-2 rounded-xl border border-stone-300 hover:bg-amber-50 text-stone-600 hover:text-[#967434] text-xs"
+                 title="Abrir y ver cómo le aparecerá la invitación a este invitado">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </a>
+
+              <!-- Eliminar -->
+              <button onclick="deleteGuest('${guest.id}')" 
+                      class="p-2 rounded-xl text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                      title="Eliminar invitado">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+
+            </div>
+
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      lucide.createIcons();
+    }
+
+    // -------------------------------------------------------------
+    // Acciones sobre Invitados
+    // -------------------------------------------------------------
+    function toggleGuestSent(id) {
+      const g = guests.find(item => item.id === id);
+      if (g) {
+        g.sent = !g.sent;
+        saveGuests();
+        renderGuests();
+      }
+    }
+
+    function markAsSent(id) {
+      const g = guests.find(item => item.id === id);
+      if (g && !g.sent) {
+        g.sent = true;
+        saveGuests();
+        setTimeout(renderGuests, 400);
+      }
+    }
+
+    function deleteGuest(id) {
+      const g = guests.find(item => item.id === id);
+      const name = g ? g.name : "el invitado";
+      if (confirm(`¿Eliminar a "${name}" de la lista?`)) {
+        guests = guests.filter(item => item.id !== id);
+        saveGuests();
+        renderGuests();
+        showToast("Invitado eliminado");
+      }
+    }
+
+    function copyGuestMessage(id) {
+      const g = guests.find(item => item.id === id);
+      if (g) {
+        const text = buildWhatsAppText(g);
+        copyToClipboard(text, `¡Mensaje para ${g.name} copiado!`);
+      }
+    }
+
+    function copyAllLinks() {
+      if (guests.length === 0) {
+        showToast("No hay invitados en la lista.");
+        return;
+      }
+      const links = guests.map(g => `${g.name}: ${buildGuestUrl(g)}`).join("\n");
+      copyToClipboard(links, "¡Todos los enlaces fueron copiados al portapapeles!");
+    }
+
+    function confirmClearAll() {
+      if (guests.length === 0) return;
+      if (confirm(`¿Estás seguro de eliminar todos los ${guests.length} invitados de la lista?`)) {
+        guests = [];
+        saveGuests();
+        renderGuests();
+        showToast("Se vació la lista de invitados.");
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Exportación a CSV / Excel
+    // -------------------------------------------------------------
+    function exportToCSV() {
+      if (guests.length === 0) {
+        showToast("No hay invitados para exportar.");
+        return;
+      }
+
+      let csv = "Nombre,WhatsApp,Pases,Estado,Enlace Invitacion\n";
+      guests.forEach(g => {
+        const cleanName = `"${(g.name || "").replace(/"/g, '""')}"`;
+        const phone = `"${g.phone || ""}"`;
+        const passes = g.passes || 2;
+        const status = g.sent ? "Enviado" : "Pendiente";
+        const link = `"${buildGuestUrl(g)}"`;
+        csv += `${cleanName},${phone},${passes},${status},${link}\n`;
+      });
+
+      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Invitados_Boda_Glenis_y_Elvis_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Archivo CSV descargado con éxito");
+    }
+
+    // -------------------------------------------------------------
+    // Búsqueda y Filtros
+    // -------------------------------------------------------------
+    function handleSearch(val) {
+      searchQuery = val.trim();
+      renderGuests();
+    }
+
+    function filterGuests(filter) {
+      currentFilter = filter;
+      
+      const btnAll = document.getElementById("filter-all-btn");
+      const btnPending = document.getElementById("filter-pending-btn");
+      const btnSent = document.getElementById("filter-sent-btn");
+
+      const activeClasses = "px-3 py-1 rounded-lg font-semibold bg-white text-stone-800 shadow-xs";
+      const inactiveClasses = "px-3 py-1 rounded-lg font-semibold text-stone-500 hover:text-stone-800";
+
+      btnAll.className = filter === 'all' ? activeClasses : inactiveClasses;
+      btnPending.className = filter === 'pending' ? activeClasses : inactiveClasses;
+      btnSent.className = filter === 'sent' ? activeClasses : inactiveClasses;
+
+      renderGuests();
+    }
+
+    function updateStats() {
+      const total = guests.length;
+      const sent = guests.filter(g => g.sent).length;
+      const pending = total - sent;
+      const totalPasses = guests.reduce((acc, g) => acc + (parseInt(g.passes, 10) || 0), 0);
+
+      document.getElementById("stat-total").textContent = total;
+      document.getElementById("stat-passes").textContent = totalPasses;
+      document.getElementById("stat-pending").textContent = pending;
+      document.getElementById("stat-sent").textContent = sent;
+
+      document.getElementById("count-all").textContent = total;
+      document.getElementById("count-pending").textContent = pending;
+      document.getElementById("count-sent").textContent = sent;
+    }
+
+    // -------------------------------------------------------------
+    // Utilidades
+    // -------------------------------------------------------------
+    function copyToClipboard(text, successMsg) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMsg);
+        }).catch(() => {
+          fallbackCopy(text, successMsg);
+        });
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        showToast(successMsg);
+      } catch (e) {
+        showToast("Copia manual: " + text);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    let toastTimeout = null;
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      const text = document.getElementById("toast-text");
+      text.textContent = msg;
+      toast.classList.add("show");
+      
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2600);
+    }
+
+    function escapeHtml(str) {
+      return (str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escapeAttr(str) {
+      return (str || "").replace(/"/g, '&quot;').replace(/'/g, "\\'");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Netlify Redirects para Boda Glenis & Elvis
+# 1. Redirigir cualquier enlace antiguo de WhatsApp que haya quedado con /generador/index.html
+/generador/index.html   /index.html   301!
+
+# 2. Asegurar acceso directo al generador
+/generador              /generador.html 200

@@ -1,0 +1,13 @@
+CÓMO COLOCAR TU CANCIÓN FAVORITA DE BODA
+==========================================
+
+Para que tu canción se reproduzca de manera fija e inmediata cuando tus invitados abran la invitación:
+
+1. Elige tu archivo de música favorito en tu computadora o celular (en formato .mp3).
+2. Cópialo dentro de esta carpeta (boda-invitacion/musica/).
+3. Nómbralo exactamente como:
+   cancion.mp3
+
+¡Y listo! Al presionar "Presiona para escuchar nuestra canción" o abrir la invitación, comenzará a sonar su canción especial.
+
+Nota: También puedes usar el botón "Elegir mi canción (MP3)" en la página web para probar y escuchar cualquier canción de tu equipo en tiempo real.

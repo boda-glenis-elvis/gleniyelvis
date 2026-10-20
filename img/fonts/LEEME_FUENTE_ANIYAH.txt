@@ -1,0 +1,12 @@
+INSTRUCCIONES PARA LA FUENTE ANIYAH
+====================================
+
+La página web ya está configurada para cargar la fuente "Aniyah" a través de CDN web y fuentes caligráficas de respaldo (Alex Brush / Great Vibes).
+
+Si tienes el archivo original de la fuente "Aniyah" descargado en tu computadora (por ejemplo, desde DaFont):
+1. Copia tu archivo de fuente en esta misma carpeta (fonts/).
+2. Nómbralo como:
+   - Aniyah.otf   o
+   - Aniyah.ttf
+
+¡El archivo style.css lo detectará y aplicará de forma automática en toda la invitación!
