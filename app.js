@@ -448,14 +448,14 @@ function copyToClipboard(text, label) {
 function copyBankNumber(type) {
   let num = "";
   let label = "";
-  if (type === 'bcp') {
-    const el = document.getElementById("bank-bcp-number");
-    num = el ? el.textContent.trim().replace(/[^0-9]/g, '') : '19112345678012';
-    label = "Cuenta BCP";
-  } else if (type === 'yape') {
-    const el = document.getElementById("bank-yape-number");
-    num = el ? el.textContent.trim().replace(/[^0-9]/g, '') : '987654321';
-    label = "Número Yape / Plin";
+  if (type === 'cci' || type === 'bcp') {
+    const el = document.getElementById("bank-bbva-number") || document.getElementById("bank-bcp-number");
+    num = el ? el.textContent.trim().replace(/[^0-9]/g, '') : '01181400023858102315';
+    label = "CCI BBVA";
+  } else if (type === 'plin' || type === 'yape') {
+    const el = document.getElementById("bank-plin-number") || document.getElementById("bank-yape-number");
+    num = el ? el.textContent.trim().replace(/[^0-9]/g, '') : '952384007';
+    label = "Número Plin";
   }
   copyToClipboard(num, label);
 }

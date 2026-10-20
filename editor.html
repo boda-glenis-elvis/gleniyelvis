@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💍 Panel de Edición Visual — Boda Glenis & Elvis</title>
+  
+  <!-- Google Fonts: Montserrat, Cormorant Garamond, Cinzel, Playfair Display, Great Vibes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/aniyah" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #120b13;
+      --panel-bg: #1c131e;
+      --panel-card: #251a28;
+      --border-gold: rgba(223, 186, 115, 0.35);
+      --gold-primary: #dfba73;
+      --gold-hover: #f3d495;
+      --gold-gradient: linear-gradient(135deg, #dfba73 0%, #c5a059 50%, #9a7428 100%);
+      --text-main: #f9eff6;
+      --text-muted: #bda6b7;
+      --accent-plum: #6e4c69;
+      --success-green: #2ecc71;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* BARRA SUPERIOR */
+    .topbar {
+      height: 60px;
+      background: rgba(28, 19, 30, 0.96);
+      border-bottom: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fcebc0;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-badge {
+      font-size: 0.68rem;
+      background: rgba(223, 186, 115, 0.15);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* BOTONES SUPERIORES */
+    .btn-connect {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: #2b1c2d;
+      border: 1px solid var(--border-gold);
+      color: #f7e6c4;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-connect:hover {
+      background: #3a263c;
+      border-color: var(--gold-primary);
+      transform: translateY(-1px);
+    }
+
+    .btn-connect.connected {
+      background: rgba(46, 204, 113, 0.12);
+      border-color: var(--success-green);
+      color: #7eedaa;
+    }
+
+    .btn-save {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-gradient);
+      color: #241306;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(223, 186, 115, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .btn-save:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(223, 186, 115, 0.5);
+    }
+
+    .btn-save:active {
+      transform: translateY(0);
+    }
+
+    /* CONTENEDOR PRINCIPAL DIVIDIDO */
+    .workspace {
+      flex: 1;
+      display: flex;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+
+    /* PANEL LATERAL DE CONTROLES */
+    .sidebar {
+      width: 420px;
+      background: var(--panel-bg);
+      border-right: 1px solid var(--border-gold);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .sidebar-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(223, 186, 115, 0.2);
+    }
+
+    .sidebar-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: #f7e6c4;
+      margin-bottom: 8px;
+    }
+
+    .element-select-dropdown {
+      width: 100%;
+      background: var(--panel-card);
+      color: #f9eff6;
+      border: 1px solid var(--border-gold);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 0.82rem;
+      font-family: 'Montserrat', sans-serif;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .element-select-dropdown:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 2px rgba(223, 186, 115, 0.25);
+    }
+
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* GRUPOS DE CONTROL */
+    .control-group {
+      background: var(--panel-card);
+      border: 1px solid rgba(223, 186, 115, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-primary);
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .control-hint {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: none;
+      font-weight: 400;
+    }
+
+    /* CONTROL DE TEXTO */
+    .text-input-field {
+      width: 100%;
+      background: #190f1b;
+      border: 1px solid rgba(223, 186, 115, 0.3);
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 70px;
+      outline: none;
+      line-height: 1.4;
+    }
+
+    .text-input-field:focus {
+      border-color: var(--gold-primary);
+    }
+
+    /* CONTROL DE TAMAÑO EN PÍXELES (SIN BARRAS) */
+    .pixel-control-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-stepper {
+      width: 38px;
+      height: 38px;
+      background: #2f1e31;
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-stepper:hover {
+      background: #422945;
+      border-color: var(--gold-primary);
+      color: #ffffff;
+    }
+
+    .pixel-input {
+      flex: 1;
+      height: 38px;
+      background: #190f1b;
+      border: 1px solid rgba(223, 186, 115, 0.3);
+      border-radius: 8px;
+      color: #fcebc0;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+      font-family: monospace;
+    }
+
+    .pixel-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .pixel-unit {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .size-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .size-chip {
+      background: #1d121f;
+      border: 1px solid rgba(223, 186, 115, 0.2);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .size-chip:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-primary);
+    }
+
+    /* BOTONES DE FORMATO (NEGRITA, CURSIVA, ALINEACIÓN) */
+    .style-toggles-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-toggle {
+      flex: 1;
+      height: 36px;
+      background: #2f1e31;
+      border: 1px solid rgba(223, 186, 115, 0.25);
+      color: var(--text-main);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-toggle:hover {
+      border-color: var(--gold-primary);
+    }
+
+    .btn-toggle.active {
+      background: rgba(223, 186, 115, 0.2);
+      border-color: var(--gold-primary);
+      color: #fcebc0;
+      font-weight: bold;
+      box-shadow: inset 0 0 8px rgba(223, 186, 115, 0.2);
+    }
+
+    /* SELECTOR DE FUENTES */
+    .font-select {
+      width: 100%;
+      height: 38px;
+      background: #190f1b;
+      border: 1px solid rgba(223, 186, 115, 0.3);
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 0 10px;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .font-select:focus {
+      border-color: var(--gold-primary);
+    }
+
+    /* SELECTOR DE COLOR Y PALETA */
+    .color-control-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .color-picker-native {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--border-gold);
+      border-radius: 8px;
+      background: none;
+      cursor: pointer;
+      padding: 2px;
+    }
+
+    .color-hex-input {
+      flex: 1;
+      height: 38px;
+      background: #190f1b;
+      border: 1px solid rgba(223, 186, 115, 0.3);
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 0 12px;
+      font-family: monospace;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      outline: none;
+    }
+
+    .color-hex-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .palette-swatches {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .swatch-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .swatch-btn:hover {
+      transform: scale(1.18);
+      border-color: #ffffff;
+    }
+
+    /* ÁREA DE VISTA PREVIA (DERECHA) */
+    .preview-stage {
+      flex: 1;
+      background: #0a060a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-toolbar {
+      width: 100%;
+      height: 44px;
+      background: rgba(22, 13, 23, 0.9);
+      border-bottom: 1px solid rgba(223, 186, 115, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .device-switcher {
+      display: flex;
+      background: #190f1b;
+      border: 1px solid rgba(223, 186, 115, 0.25);
+      border-radius: 8px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .device-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .device-btn.active {
+      background: var(--gold-primary);
+      color: #241306;
+    }
+
+    .preview-viewport-container {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: auto;
+    }
+
+    /* MARCO DEL SIMULADOR */
+    .simulator-frame {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85);
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+      position: relative;
+    }
+
+    .simulator-frame.mode-mobile {
+      width: 412px;
+      height: 860px;
+      max-height: 100%;
+      border-radius: 36px;
+      border: 8px solid #2d1d2f;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px var(--border-gold);
+    }
+
+    iframe#previewFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: #faf7f2;
+    }
+
+    /* TOAST DE NOTIFICACIÓN */
+    .toast-notification {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1d2c1e;
+      border: 1px solid #4cd137;
+      color: #bbf7d0;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+      z-index: 1000;
+    }
+
+    .toast-notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ESTILOS DE ELEMENTO SELECCIONADO EN IFRAME */
+    .hint-chip {
+      font-size: 0.68rem;
+      background: rgba(223, 186, 115, 0.1);
+      border: 1px dashed var(--border-gold);
+      color: #fcebc0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header class="topbar">
+    <div class="brand">
+      <span style="font-size: 1.3rem;">💍</span>
+      <h1 class="brand-title">Editor Visual de Invitación</h1>
+      <span class="brand-badge">Local • Chrome/Edge</span>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="btn-connect" id="btnConnect" onclick="connectLocalFile()" title="Conectar tu archivo index.html para guardar directamente">
+        <span id="connectIcon">📂</span>
+        <span id="connectText">Conectar index.html</span>
+      </button>
+
+      <button class="btn-save" id="btnSave" onclick="saveToLocalDisk()" title="Sobrescribe inmediatamente index.html en tu computadora">
+        <span>💾</span>
+        <span>Guardar Cambios en Disco</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ÁREA DE TRABAJO -->
+  <main class="workspace">
+
+    <!-- PANEL LATERAL DE CONTROLES -->
+    <aside class="sidebar">
+      
+      <div class="sidebar-header">
+        <h2>Seleccionar Elemento a Editar</h2>
+        <select id="elementSelect" class="element-select-dropdown" onchange="onSelectElementChange()">
+          
+          <optgroup label="💌 1. Sobre de Entrada y Carta">
+            <option value="modal_seal_note">Texto del Sello ("Toca el sello para abrir")</option>
+            <option value="modal_guest_title">Kicker ("Invitación Exclusiva para:")</option>
+            <option value="modal_letter_quote">Cita Emotiva de la Carta</option>
+            <option value="modal_letter_btn">Texto del Botón ("VER INVITACIÓN COMPLETA")</option>
+          </optgroup>
+
+          <optgroup label="🌹 2. Portada y Novios (Hero)">
+            <option value="hero_badge">Insignia ("¡NOS CASAMOS!")</option>
+            <option value="hero_bride">Nombre de la Novia ("Glenis")</option>
+            <option value="hero_connector">Conector ("y")</option>
+            <option value="hero_groom">Nombre del Novio ("Elvis")</option>
+            <option value="hero_quote">Frase Romántica de Portada</option>
+            <option value="hero_music_prompt">Texto "Presiona para escuchar nuestra canción"</option>
+          </optgroup>
+
+          <optgroup label="👨‍👩‍👧 3. Padres de la Novia">
+            <option value="parents_opening">Texto inicial ("Con la bendición de Dios...")</option>
+            <option value="parents_bride_title">Título ("Padres de la Novia")</option>
+            <option value="parents_bride_mom" selected>Mamá de la Novia ("Margarita Montalvo Alcarras")</option>
+            <option value="parents_bride_dad">Papá de la Novia ("Honorato Chávez Anaya")</option>
+          </optgroup>
+
+          <optgroup label="👨‍👩‍👦 4. Padres del Novio">
+            <option value="parents_groom_title">Título ("Padres del Novio")</option>
+            <option value="parents_groom_mom">Mamá del Novio ("Antonia Saire Tinta")</option>
+            <option value="parents_groom_dad">Papá del Novio ("Gregorio Vargas Sullca")</option>
+          </optgroup>
+
+          <optgroup label="🤝 5. Padrinos de Boda">
+            <option value="padrinos_opening">Frase ("En compañía de nuestros")</option>
+            <option value="padrinos_title">Título ("Padrinos")</option>
+            <option value="padrinos_name1">Padrino/Madrina 1 ("Marcia Beatriz Ojeda Cajigas")</option>
+            <option value="padrinos_name2">Padrino/Madrina 2 ("Saúl Ronald Ochoa Zapata")</option>
+          </optgroup>
+
+          <optgroup label="📅 6. Fecha del Matrimonio">
+            <option value="invitation_headline">Frase ("Tenemos el agrado de invitarlos...")</option>
+            <option value="date_month">Mes ("Noviembre")</option>
+            <option value="date_day_name">Día de la semana ("Sábado")</option>
+            <option value="date_heart_badge">Corazón de la Fecha (Tamaño y Color)</option>
+            <option value="date_day_number">Número de día ("14")</option>
+            <option value="date_year">Año ("2026")</option>
+          </optgroup>
+
+          <optgroup label="⏰ 7. Contador de Tiempo (Cuenta Regresiva)">
+            <option value="countdown_title">Título ("Faltan:")</option>
+            <option value="countdown_digits">Valores Numéricos (55, 23, 08, 35)</option>
+            <option value="countdown_days_label">Etiqueta ("Días")</option>
+            <option value="countdown_hours_label">Etiqueta ("Horas")</option>
+            <option value="countdown_min_label">Etiqueta ("Minutos")</option>
+            <option value="countdown_sec_label">Etiqueta ("Segundos")</option>
+          </optgroup>
+
+          <optgroup label="⛪ 8. Ceremonia Religiosa">
+            <option value="ceremony_title">Título ("Ceremonia Religiosa")</option>
+            <option value="ceremony_time">Hora de Ceremonia ("Hora: 11:30 a.m.")</option>
+            <option value="ceremony_place">Lugar y Dirección ("Convento de La Merced...")</option>
+          </optgroup>
+
+          <optgroup label="🥂 9. Recepción y Fiesta">
+            <option value="reception_title">Título ("Recepción")</option>
+            <option value="reception_time">Hora de Recepción ("Hora: 14:00 p.m.")</option>
+            <option value="reception_place">Lugar ("Villa Novios Saylla - Cusco")</option>
+          </optgroup>
+
+          <optgroup label="👗 10. Código de Vestimenta">
+            <option value="dress_title">Título ("Código de vestimenta")</option>
+            <option value="dress_type">Tipo de Vestimenta ("Elegante")</option>
+            <option value="dress_note">Reglas y Notas de Colores</option>
+          </optgroup>
+
+          <optgroup label="🎁 11. Regalos y Presentes">
+            <option value="presents_title">Título ("Presentes")</option>
+            <option value="presents_quote">Mensaje ("Nuestro mejor regalo es tu presencia...")</option>
+            <option value="bank_cards_style">Marco de Tarjetas (Fondo y Transparencia)</option>
+            <option value="bank_subtitle">Subtítulo Cuentas ("Toca el botón para copiar...")</option>
+            <option value="bank_bcp_holder">BCP - Titular ("Glenis / Elvis")</option>
+            <option value="bank_bcp_number">BCP - Cuenta ("191-12345678-0-12")</option>
+            <option value="bank_bcp_btn">BCP - Botón Copiar ("Copiar Número BCP")</option>
+            <option value="bank_yape_holder">Yape/Plin - Titular ("Glenis / Elvis")</option>
+            <option value="bank_yape_number">Yape/Plin - Celular ("987 654 321")</option>
+            <option value="bank_yape_btn">Yape/Plin - Botón Copiar ("Copiar Número Yape / Plin")</option>
+            <option value="presents_addr_title">Título ("Dirección para regalos")</option>
+            <option value="presents_addr_line1">Dirección Línea 1 ("Avenida Libertad Ttio")</option>
+            <option value="presents_addr_line2">Dirección Línea 2 ("Wanchaq - Cusco")</option>
+          </optgroup>
+
+          <optgroup label="👶 12. Solo Adultos">
+            <option value="adults_title">Título ("Solo adultos")</option>
+            <option value="adults_note">Mensaje de Solo Adultos</option>
+          </optgroup>
+
+          <optgroup label="💌 13. Buzón de Deseos">
+            <option value="wishes_title">Título ("Buzón de deseos")</option>
+            <option value="wishes_note">Mensaje ("Nos encantaría leer tus buenos deseos...")</option>
+            <option value="wishes_btn_text">Botón ("ENVIAR DESEO ✨")</option>
+          </optgroup>
+
+          <optgroup label="📋 14. Confirmación de Asistencia (RSVP)">
+            <option value="rsvp_title">Título ("Confirmar asistencia")</option>
+            <option value="rsvp_note">Mensaje de Confirmación</option>
+            <option value="rsvp_button_text">Botón Principal ("CONFIRMAR")</option>
+            <option value="rsvp_modal_title">Título en Ventana Emergente</option>
+            <option value="rsvp_modal_subtitle">Subtítulo en Ventana Emergente</option>
+            <option value="rsvp_question">Pregunta ("¿Nos acompañarás en nuestro gran día? *")</option>
+            <option value="rsvp_opt_yes">Opción Positiva ("¡Sí asistiré! 🥂")</option>
+            <option value="rsvp_opt_no">Opción Negativa ("No podré 🕊️")</option>
+          </optgroup>
+
+          <optgroup label="💍 15. Cierre y Despedida (Pie de Página)">
+            <option value="footer_quote">Frase de Agradecimiento Final</option>
+            <option value="footer_meta">Fecha y Lugar ("14 . 11 . 2026 • Cusco - Perú")</option>
+          </optgroup>
+
+        </select>
+
+        <p class="hint-chip" style="margin-top: 8px;">
+          💡 <strong>Tip pro:</strong> También puedes hacer clic directamente sobre cualquier texto en la vista previa de la derecha para editarlo al instante.
+        </p>
+      </div>
+
+      <div class="sidebar-content">
+ 
+        <!-- CONTROL ESPECIAL: TRANSPARENCIA Y BORDE DEL MARCO DE TARJETAS BANCARIAS -->
+        <div class="control-group" id="groupBankCardOpacity" style="display: none; background: rgba(223, 186, 115, 0.08); border: 1px solid var(--border-gold); padding: 14px; border-radius: 12px; margin-bottom: 16px;">
+          <label class="control-label" for="numBankCardOpacity">
+            <span style="color: #dfba73; font-weight: 700;">Transparencia del Marco</span>
+            <span class="control-hint">0% a 100%</span>
+          </label>
+          <div class="pixel-control-box">
+            <button class="btn-stepper" onclick="stepBankCardOpacity(-5)" title="Reducir opacidad 5% (Más transparente)">-</button>
+            <input type="number" id="numBankCardOpacity" class="pixel-input" min="0" max="100" step="5" value="95" oninput="applyBankCardOpacityChange(this.value)">
+            <span class="pixel-unit">%</span>
+            <button class="btn-stepper" onclick="stepBankCardOpacity(5)" title="Aumentar opacidad 5% (Más sólido)">+</button>
+          </div>
+
+          <!-- Presets rápidos de transparencia -->
+          <div class="size-chips-row" style="margin-top: 10px;">
+            <button class="size-chip" onclick="setBankCardOpacityPreset(0)">🫧 0% Transparente</button>
+            <button class="size-chip" onclick="setBankCardOpacityPreset(25)">🪟 25% Cristalino</button>
+            <button class="size-chip" onclick="setBankCardOpacityPreset(50)">50% Semi</button>
+            <button class="size-chip" onclick="setBankCardOpacityPreset(75)">75% Translúcido</button>
+            <button class="size-chip" onclick="setBankCardOpacityPreset(95)">95% Original</button>
+            <button class="size-chip" onclick="setBankCardOpacityPreset(100)">⚪ 100% Sólido</button>
+          </div>
+
+          <!-- Control de Borde de las Tarjetas -->
+          <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(223,186,115,0.3); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 0.8rem; color: #fcebc0; font-weight: 600;">Borde del Marco</span>
+            <div style="display: flex; gap: 8px;">
+              <button class="device-btn active" id="btnBankBorderYes" onclick="setBankCardBorder(true)">Con Borde</button>
+              <button class="device-btn" id="btnBankBorderNo" onclick="setBankCardBorder(false)">Sin Borde</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTROL ESPECIAL: DIMENSIONES Y GROSOR DEL BOTÓN COPIAR BANCARIO -->
+        <div class="control-group" id="groupBankBtnDimensions" style="display: none; background: rgba(223, 186, 115, 0.08); border: 1px solid var(--border-gold); padding: 14px; border-radius: 12px; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <span style="color: #dfba73; font-weight: 700; font-size: 0.88rem;">📐 Tamaño y Forma del Botón</span>
+            <span class="control-hint">BCP / Yape</span>
+          </div>
+
+          <!-- Altura / Grosor vertical en Píxeles -->
+          <label class="control-label" for="numBankBtnPaddingY">
+            <span>Grosor Vertical (Altura del Botón)</span>
+            <span class="control-hint">4 px a 30 px</span>
+          </label>
+          <div class="pixel-control-box">
+            <button class="btn-stepper" onclick="stepBankBtnPaddingY(-1)" title="Reducir grosor 1 px">-</button>
+            <input type="number" id="numBankBtnPaddingY" class="pixel-input" min="4" max="30" step="1" value="10" oninput="applyBankBtnPaddingYChange(this.value)">
+            <span class="pixel-unit">PX</span>
+            <button class="btn-stepper" onclick="stepBankBtnPaddingY(1)" title="Aumentar grosor 1 px">+</button>
+          </div>
+
+          <!-- Presets rápidos de grosor -->
+          <div class="size-chips-row" style="margin-top: 8px;">
+            <button class="size-chip" onclick="setBankBtnPaddingYPreset(6)">6 px (Delgado)</button>
+            <button class="size-chip" onclick="setBankBtnPaddingYPreset(10)">10 px (Normal)</button>
+            <button class="size-chip" onclick="setBankBtnPaddingYPreset(14)">14 px (Amplio)</button>
+            <button class="size-chip" onclick="setBankBtnPaddingYPreset(18)">18 px (Grande)</button>
+          </div>
+
+          <!-- Modo de Ancho: Completo vs Compacto Centrado -->
+          <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(223,186,115,0.3);">
+            <label class="control-label" style="margin-bottom: 6px;">
+              <span>Ancho del Botón</span>
+            </label>
+            <div style="display: flex; gap: 8px;">
+              <button class="device-btn active" id="btnBankWidthFull" onclick="setBankBtnWidth('full')" style="flex: 1; justify-content: center;">↔️ Ancho Completo</button>
+              <button class="device-btn" id="btnBankWidthCompact" onclick="setBankBtnWidth('compact')" style="flex: 1; justify-content: center;">▫️ Compacto / Centrado</button>
+            </div>
+          </div>
+
+          <!-- Color de Fondo del Botón -->
+          <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(223,186,115,0.3);">
+            <label class="control-label" for="bankBtnBgColorPicker" style="margin-bottom: 6px;">
+              <span>Color de Fondo del Botón</span>
+            </label>
+            <div class="color-control-box">
+              <input type="color" id="bankBtnBgColorPicker" class="color-picker-native" oninput="applyBankBtnBgColorChange(this.value)">
+              <input type="text" id="bankBtnBgColorHex" class="color-hex-input" maxlength="7" oninput="applyBankBtnBgHexChange(this.value)">
+            </div>
+            <div class="palette-swatches" style="margin-top: 8px;">
+              <button class="swatch-btn" style="background:#fceef1;" onclick="applyBankBtnBgPreset('#fceef1')" title="Rosado Pastel (BCP Original)"></button>
+              <button class="swatch-btn" style="background:#eef4f9;" onclick="applyBankBtnBgPreset('#eef4f9')" title="Celeste Pastel (Yape Original)"></button>
+              <button class="swatch-btn" style="background:#fbf6ec;" onclick="applyBankBtnBgPreset('#fbf6ec')" title="Dorado Champán Claro"></button>
+              <button class="swatch-btn" style="background:#ffffff;" onclick="applyBankBtnBgPreset('#ffffff')" title="Blanco Puro"></button>
+              <button class="swatch-btn" style="background:#543550;" onclick="applyBankBtnBgPreset('#543550')" title="Ciruela Oscuro Elegante"></button>
+              <button class="swatch-btn" style="background:#3e5f7a;" onclick="applyBankBtnBgPreset('#3e5f7a')" title="Azul Profundo"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. TEXTO -->
+        <div class="control-group">
+          <label class="control-label" for="txtContent">
+            <span>Texto del Elemento</span>
+            <span class="control-hint">Edita en vivo</span>
+          </label>
+          <textarea id="txtContent" class="text-input-field" oninput="applyTextChange(this.value)"></textarea>
+        </div>
+
+        <!-- 2. TAMAÑO EN PÍXELES (SIN BARRAS / EXACTO) -->
+        <div class="control-group">
+          <label class="control-label" for="numPixelSize">
+            <span>Tamaño de Letra</span>
+            <span class="control-hint">Valor exacto en px</span>
+          </label>
+          <div class="pixel-control-box">
+            <button class="btn-stepper" onclick="stepPixelSize(-1)" title="Achicar 1 px">-</button>
+            <input type="number" id="numPixelSize" class="pixel-input" min="8" max="140" step="1" oninput="applyPixelSizeChange(this.value)">
+            <span class="pixel-unit">PX</span>
+            <button class="btn-stepper" onclick="stepPixelSize(1)" title="Agrandar 1 px">+</button>
+          </div>
+
+          <!-- Presets rápidos -->
+          <div class="size-chips-row">
+            <button class="size-chip" onclick="setPixelPreset(16)">16 px</button>
+            <button class="size-chip" onclick="setPixelPreset(18)">18 px</button>
+            <button class="size-chip" onclick="setPixelPreset(20)">20 px</button>
+            <button class="size-chip" onclick="setPixelPreset(22)">22 px</button>
+            <button class="size-chip" onclick="setPixelPreset(24)">24 px</button>
+            <button class="size-chip" onclick="setPixelPreset(28)">28 px</button>
+            <button class="size-chip" onclick="setPixelPreset(32)">32 px</button>
+            <button class="size-chip" onclick="setPixelPreset(40)">40 px</button>
+          </div>
+        </div>
+
+        <!-- 3. FORMATO (NEGRITA Y CURSIVA) -->
+        <div class="control-group">
+          <label class="control-label">
+            <span>Formato de Texto</span>
+          </label>
+          <div class="style-toggles-row">
+            <button class="btn-toggle" id="btnBold" onclick="toggleBold()">
+              <strong>B</strong> &nbsp; Negrita
+            </button>
+            <button class="btn-toggle" id="btnItalic" onclick="toggleItalic()">
+              <em>I</em> &nbsp; Cursiva
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. FUENTE / TIPOGRAFÍA -->
+        <div class="control-group">
+          <label class="control-label" for="fontSelect">
+            <span>Tipografía (Fuente)</span>
+          </label>
+          <select id="fontSelect" class="font-select" onchange="applyFontChange(this.value)">
+            <option value="font-cormorant">Cormorant Garamond (Elegante Clásica)</option>
+            <option value="font-aniyah">Aniyah (Caligrafía Nupcial de Lujo)</option>
+            <option value="font-serif-title">Playfair Display (Serif Distinguida)</option>
+            <option value="font-script">Great Vibes / Alex Brush (Cursiva Romántica)</option>
+            <option value="font-sans">Montserrat (Moderna y Limpia)</option>
+            <option value="font-cinzel">Cinzel (Romana Imperial)</option>
+          </select>
+        </div>
+
+        <!-- 5. COLOR DE TEXTO -->
+        <div class="control-group">
+          <label class="control-label" for="colorPicker">
+            <span>Color de Letra</span>
+          </label>
+          <div class="color-control-box">
+            <input type="color" id="colorPicker" class="color-picker-native" oninput="applyColorChange(this.value)">
+            <input type="text" id="colorHexInput" class="color-hex-input" maxlength="7" oninput="applyHexColorChange(this.value)">
+          </div>
+
+          <!-- Paleta de la boda -->
+          <div class="palette-swatches">
+            <button class="swatch-btn" style="background:#543550;" onclick="applyColorPreset('#543550')" title="Ciruela Oscuro"></button>
+            <button class="swatch-btn" style="background:#6e4c69;" onclick="applyColorPreset('#6e4c69')" title="Rosado Nupcial"></button>
+            <button class="swatch-btn" style="background:#482d44;" onclick="applyColorPreset('#482d44')" title="Vino Tinto Textos"></button>
+            <button class="swatch-btn" style="background:#dfba73;" onclick="applyColorPreset('#dfba73')" title="Dorado Champán"></button>
+            <button class="swatch-btn" style="background:#c5a059;" onclick="applyColorPreset('#c5a059')" title="Dorado Suave"></button>
+            <button class="swatch-btn" style="background:#687f6b;" onclick="applyColorPreset('#687f6b')" title="Verde Olivo Botánico"></button>
+            <button class="swatch-btn" style="background:#2b2b2b;" onclick="applyColorPreset('#2b2b2b')" title="Gris Carbón Elegante"></button>
+            <button class="swatch-btn" style="background:#faf7f2; border-color:#aaa;" onclick="applyColorPreset('#faf7f2')" title="Blanco Marfil"></button>
+          </div>
+        </div>
+
+        <!-- 6. ALINEACIÓN E INTERLINEADO -->
+        <div class="control-group">
+          <label class="control-label">
+            <span>Alineación e Interlineado</span>
+          </label>
+          <div class="style-toggles-row" style="margin-bottom: 8px;">
+            <button class="btn-toggle" id="btnAlignLeft" onclick="applyAlignment('left')" title="Alinear a la Izquierda">⬅️ Izq</button>
+            <button class="btn-toggle" id="btnAlignCenter" onclick="applyAlignment('center')" title="Centrar">↔️ Centro</button>
+            <button class="btn-toggle" id="btnAlignRight" onclick="applyAlignment('right')" title="Alinear a la Derecha">➡️ Der</button>
+          </div>
+          <div class="style-toggles-row">
+            <button class="btn-toggle" id="btnLinePegado" onclick="applyLineHeight('1.1')" title="Líneas muy juntas">Interlineado Pegado</button>
+            <button class="btn-toggle" id="btnLineNormal" onclick="applyLineHeight('1.35')" title="Líneas estándar">Normal</button>
+            <button class="btn-toggle" id="btnLineHolgado" onclick="applyLineHeight('1.6')" title="Líneas separadas">Holgado</button>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- ÁREA DE VISTA PREVIA EN VIVO (DERECHA) -->
+    <section class="preview-stage">
+      
+      <div class="preview-toolbar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 0.85rem;">👁️</span>
+          <span>Vista Previa en Tiempo Real</span>
+          <span id="saveStatusIndicator" style="color: #dfba73; font-weight: 600; margin-left: 10px;">• Cambios sincronizados</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="device-btn" id="btnToggleEnvelope" onclick="toggleEnvelopeView()" title="Alternar entre ver el sobre cerrado o la invitación">
+            ✉️ Ver Sobre / Invitación
+          </button>
+
+          <div class="device-switcher">
+            <button class="device-btn active" id="btnDevMobile" onclick="switchDeviceMode('mobile')">📱 Celular (iPhone)</button>
+            <button class="device-btn" id="btnDevDesktop" onclick="switchDeviceMode('desktop')">💻 Pantalla Completa</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-viewport-container">
+        <div class="simulator-frame mode-mobile" id="simulatorFrame">
+          <iframe id="previewFrame" src="index.html" onload="onIframeLoaded()"></iframe>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- TOAST DE NOTIFICACIÓN -->
+  <div class="toast-notification" id="toastNotification">
+    <span style="font-size: 1.3rem;">✅</span>
+    <span id="toastMessage">¡Cambios guardados con éxito en index.html!</span>
+  </div>
+
+  <script>
+    /* ===================================================================
+       LÓGICA DEL PANEL DE EDICIÓN VISUAL LOCAL (editor.html)
+       Sincronización en tiempo real vía postMessage (compatible con file:// y http://)
+       =================================================================== */
+
+    let fileHandle = null;
+    let selectedElementKey = "parents_bride_mom";
+    let isConnected = false;
+    let isSaving = false;
+    let currentAlign = "center";
+    let currentLineHeight = "1.35";
+    const elementsDataCache = {};
+
+    // Al cargar la ventana del editor
+    window.addEventListener("DOMContentLoaded", () => {
+      const frame = document.getElementById("previewFrame");
+      if (frame) {
+        frame.addEventListener("load", onIframeLoaded);
+      }
+    });
+
+    // Detectar cuando el iframe carga la invitación
+    function onIframeLoaded() {
+      const frame = document.getElementById("previewFrame");
+      if (!frame || !frame.contentWindow) return;
+
+      // Solicitar datos de todos los elementos y enfocar el predeterminado
+      setTimeout(() => {
+        try {
+          frame.contentWindow.postMessage({ type: "REQUEST_ALL_ELEMENTS" }, "*");
+          frame.contentWindow.postMessage({ type: "SELECT_ELEMENT", key: selectedElementKey }, "*");
+        } catch (e) {
+          console.warn("No se pudo enviar mensaje inicial al iframe:", e);
+        }
+      }, 150);
+    }
+
+    // Escuchar mensajes provenientes del iframe
+    window.addEventListener("message", (event) => {
+      const data = event.data;
+      if (!data || !data.type) return;
+
+      if (data.type === "INVITATION_LOADED") {
+        if (data.elements) {
+          Object.assign(elementsDataCache, data.elements);
+          if (elementsDataCache[selectedElementKey]) {
+            populateControls(elementsDataCache[selectedElementKey]);
+          }
+        }
+        const ind = document.getElementById("saveStatusIndicator");
+        ind.textContent = "✔ Vista previa en vivo conectada";
+        ind.style.color = "#dfba73";
+      } else if (data.type === "ELEMENT_CLICKED") {
+        if (data.key) {
+          selectedElementKey = data.key;
+          const select = document.getElementById("elementSelect");
+          if (select) select.value = data.key;
+
+          if (data.data) {
+            elementsDataCache[data.key] = data.data;
+            populateControls(data.data);
+          }
+
+          const frame = document.getElementById("previewFrame");
+          if (frame && frame.contentWindow) {
+            frame.contentWindow.postMessage({ type: "SELECT_ELEMENT", key: data.key }, "*");
+          }
+        }
+      } else if (data.type === "ELEMENT_DATA_RESPONSE") {
+        if (data.key && data.data) {
+          elementsDataCache[data.key] = data.data;
+          if (data.key === selectedElementKey) {
+            populateControls(data.data);
+          }
+        }
+      } else if (data.type === "EXPORT_HTML_RESPONSE") {
+        if (data.html) {
+          handleExportHtmlResponse(data.html);
+        }
+      }
+    });
+
+    // Al cambiar la selección en el desplegable
+    function onSelectElementChange() {
+      selectedElementKey = document.getElementById("elementSelect").value;
+      
+      // Cargar de inmediato desde la memoria caché local para respuesta instantánea
+      if (elementsDataCache[selectedElementKey]) {
+        populateControls(elementsDataCache[selectedElementKey]);
+      }
+
+      // Notificar al iframe para desplazarse, resaltar el elemento y responder con datos frescos
+      const frame = document.getElementById("previewFrame");
+      if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({
+          type: "SELECT_ELEMENT",
+          key: selectedElementKey
+        }, "*");
+      }
+    }
+
+    // Cargar propiedades en los controles del sidebar
+    function populateControls(data) {
+      if (!data) return;
+
+      // 1. Texto
+      const txtField = document.getElementById("txtContent");
+      if (data.text !== undefined) {
+        txtField.value = data.text;
+      }
+      // Control especial: Transparencia y Borde del Marco de Tarjetas Bancarias
+      const groupOpacity = document.getElementById("groupBankCardOpacity");
+      if (selectedElementKey === "bank_cards_style") {
+        if (groupOpacity) groupOpacity.style.display = "block";
+        const opVal = (data.opacity !== undefined) ? data.opacity : (data.size !== undefined ? data.size : 95);
+        const opInput = document.getElementById("numBankCardOpacity");
+        if (opInput) opInput.value = opVal;
+        updateBankBorderButtons(data.border !== false);
+      } else {
+        if (groupOpacity) groupOpacity.style.display = "none";
+      }
+
+      // Control especial: Dimensiones y estilo de los botones bancarios (BCP y Yape)
+      const groupBtnDim = document.getElementById("groupBankBtnDimensions");
+      if (selectedElementKey === "bank_bcp_btn" || selectedElementKey === "bank_yape_btn") {
+        if (groupBtnDim) groupBtnDim.style.display = "block";
+        const pyVal = (data.paddingY !== undefined) ? data.paddingY : 10;
+        const pyInput = document.getElementById("numBankBtnPaddingY");
+        if (pyInput) pyInput.value = pyVal;
+        updateBankBtnWidthButtons(data.widthMode || "full");
+        if (data.btnBgColor) {
+          const bgPick = document.getElementById("bankBtnBgColorPicker");
+          const bgHex = document.getElementById("bankBtnBgColorHex");
+          if (bgPick) bgPick.value = data.btnBgColor;
+          if (bgHex) bgHex.value = data.btnBgColor.toUpperCase();
+        }
+      } else {
+        if (groupBtnDim) groupBtnDim.style.display = "none";
+      }
+
+      if (selectedElementKey === "countdown_digits" || selectedElementKey === "date_heart_badge" || selectedElementKey === "bank_cards_style") {
+        txtField.disabled = true;
+        txtField.style.opacity = "0.65";
+        txtField.title = "Este elemento se configura de forma visual mediante sus controles dedicados";
+      } else {
+        txtField.disabled = false;
+        txtField.style.opacity = "1";
+        txtField.title = "";
+      }
+
+      // 2. Tamaño en píxeles
+      if (data.size !== undefined) {
+        document.getElementById("numPixelSize").value = data.size;
+      }
+
+      // 3. Negrita
+      const btnBold = document.getElementById("btnBold");
+      if (data.bold) {
+        btnBold.classList.add("active");
+      } else {
+        btnBold.classList.remove("active");
+      }
+
+      // 4. Cursiva
+      const btnItalic = document.getElementById("btnItalic");
+      if (data.italic) {
+        btnItalic.classList.add("active");
+      } else {
+        btnItalic.classList.remove("active");
+      }
+
+      // 5. Color
+      if (data.color) {
+        document.getElementById("colorPicker").value = data.color;
+        document.getElementById("colorHexInput").value = data.color.toUpperCase();
+      }
+
+      // 6. Fuente
+      if (data.font) {
+        document.getElementById("fontSelect").value = data.font;
+      }
+
+      // 7. Alineación
+      if (data.align) {
+        currentAlign = data.align;
+        updateAlignmentButtons(data.align);
+      }
+
+      // 8. Interlineado
+      if (data.lineHeight) {
+        currentLineHeight = data.lineHeight;
+        updateLineHeightButtons(data.lineHeight);
+      }
+    }
+
+    // Enviar cambio instantáneo al iframe
+    function sendFieldUpdate(params) {
+      if (!elementsDataCache[selectedElementKey]) {
+        elementsDataCache[selectedElementKey] = {};
+      }
+      Object.assign(elementsDataCache[selectedElementKey], params);
+
+      const frame = document.getElementById("previewFrame");
+      if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({
+          type: "UPDATE_FIELD",
+          key: selectedElementKey,
+          ...params
+        }, "*");
+      }
+
+      notifyPendingChanges();
+    }
+
+    // -------------------------------------------------------------
+    // ACCIONES DE EDICIÓN EN TIEMPO REAL
+    // -------------------------------------------------------------
+
+    // Transparencia y Borde del Marco de Tarjetas Bancarias
+    function applyBankCardOpacityChange(val) {
+      const op = Math.max(0, Math.min(100, parseInt(val, 10) || 0));
+      const opInput = document.getElementById("numBankCardOpacity");
+      if (opInput) opInput.value = op;
+      sendFieldUpdate({ opacity: op, size: op });
+    }
+
+    function stepBankCardOpacity(delta) {
+      const cur = parseInt(document.getElementById("numBankCardOpacity").value, 10) || 0;
+      const next = Math.max(0, Math.min(100, cur + delta));
+      applyBankCardOpacityChange(next);
+    }
+
+    function setBankCardOpacityPreset(val) {
+      applyBankCardOpacityChange(val);
+    }
+
+    function setBankCardBorder(hasBorder) {
+      updateBankBorderButtons(hasBorder);
+      sendFieldUpdate({ border: hasBorder });
+    }
+
+    function updateBankBorderButtons(hasBorder) {
+      const btnYes = document.getElementById("btnBankBorderYes");
+      const btnNo = document.getElementById("btnBankBorderNo");
+      if (btnYes && btnNo) {
+        if (hasBorder) {
+          btnYes.classList.add("active");
+          btnNo.classList.remove("active");
+        } else {
+          btnYes.classList.remove("active");
+          btnNo.classList.add("active");
+        }
+      }
+    }
+
+    // Dimensiones y estilos de botones de copia bancaria (BCP y Yape)
+    function applyBankBtnPaddingYChange(val) {
+      const py = Math.max(4, Math.min(30, parseInt(val, 10) || 10));
+      const pyInput = document.getElementById("numBankBtnPaddingY");
+      if (pyInput) pyInput.value = py;
+      sendFieldUpdate({ paddingY: py });
+    }
+
+    function stepBankBtnPaddingY(delta) {
+      const cur = parseInt(document.getElementById("numBankBtnPaddingY").value, 10) || 10;
+      const next = Math.max(4, Math.min(30, cur + delta));
+      applyBankBtnPaddingYChange(next);
+    }
+
+    function setBankBtnPaddingYPreset(val) {
+      applyBankBtnPaddingYChange(val);
+    }
+
+    function setBankBtnWidth(mode) {
+      updateBankBtnWidthButtons(mode);
+      sendFieldUpdate({ widthMode: mode });
+    }
+
+    function updateBankBtnWidthButtons(mode) {
+      const btnFull = document.getElementById("btnBankWidthFull");
+      const btnCompact = document.getElementById("btnBankWidthCompact");
+      if (btnFull && btnCompact) {
+        if (mode === "compact") {
+          btnFull.classList.remove("active");
+          btnCompact.classList.add("active");
+        } else {
+          btnFull.classList.add("active");
+          btnCompact.classList.remove("active");
+        }
+      }
+    }
+
+    function applyBankBtnBgColorChange(hex) {
+      document.getElementById("bankBtnBgColorHex").value = hex.toUpperCase();
+      sendFieldUpdate({ btnBgColor: hex });
+    }
+
+    function applyBankBtnBgHexChange(hex) {
+      if (/^#[0-9A-F]{6}$/i.test(hex)) {
+        document.getElementById("bankBtnBgColorPicker").value = hex;
+        sendFieldUpdate({ btnBgColor: hex });
+      }
+    }
+
+    function applyBankBtnBgPreset(hex) {
+      document.getElementById("bankBtnBgColorPicker").value = hex;
+      document.getElementById("bankBtnBgColorHex").value = hex.toUpperCase();
+      sendFieldUpdate({ btnBgColor: hex });
+    }
+
+    // 1. Modificar texto
+    function applyTextChange(val) {
+      if (selectedElementKey === "countdown_digits" || selectedElementKey === "date_heart_badge" || selectedElementKey === "bank_cards_style") return;
+      sendFieldUpdate({ text: val });
+    }
+
+    // 2. Modificar tamaño en px
+    function applyPixelSizeChange(val) {
+      const px = parseInt(val, 10);
+      if (!isNaN(px)) {
+        sendFieldUpdate({ size: px });
+      }
+    }
+
+    function stepPixelSize(delta) {
+      const numInput = document.getElementById("numPixelSize");
+      let curr = parseInt(numInput.value, 10) || 18;
+      curr = Math.max(8, Math.min(140, curr + delta));
+      numInput.value = curr;
+      sendFieldUpdate({ size: curr });
+    }
+
+    function setPixelPreset(px) {
+      document.getElementById("numPixelSize").value = px;
+      sendFieldUpdate({ size: px });
+    }
+
+    // 3. Negrita
+    function toggleBold() {
+      const btn = document.getElementById("btnBold");
+      const makeBold = !btn.classList.contains("active");
+      btn.classList.toggle("active", makeBold);
+      sendFieldUpdate({ bold: makeBold });
+    }
+
+    // 4. Cursiva
+    function toggleItalic() {
+      const btn = document.getElementById("btnItalic");
+      const makeItalic = !btn.classList.contains("active");
+      btn.classList.toggle("active", makeItalic);
+      sendFieldUpdate({ italic: makeItalic });
+    }
+
+    // 5. Fuente
+    function applyFontChange(fontClass) {
+      sendFieldUpdate({ font: fontClass });
+    }
+
+    // 6. Color
+    function applyColorChange(hex) {
+      document.getElementById("colorHexInput").value = hex.toUpperCase();
+      sendFieldUpdate({ color: hex });
+    }
+
+    function applyHexColorChange(hex) {
+      if (/^#[0-9A-F]{6}$/i.test(hex)) {
+        document.getElementById("colorPicker").value = hex;
+        sendFieldUpdate({ color: hex });
+      }
+    }
+
+    function applyColorPreset(hex) {
+      document.getElementById("colorPicker").value = hex;
+      document.getElementById("colorHexInput").value = hex.toUpperCase();
+      sendFieldUpdate({ color: hex });
+    }
+
+    // 7. Alineación
+    function applyAlignment(align) {
+      currentAlign = align;
+      updateAlignmentButtons(align);
+      sendFieldUpdate({ align: align });
+    }
+
+    function updateAlignmentButtons(align) {
+      document.getElementById("btnAlignLeft").classList.toggle("active", align === "left");
+      document.getElementById("btnAlignCenter").classList.toggle("active", align === "center");
+      document.getElementById("btnAlignRight").classList.toggle("active", align === "right");
+    }
+
+    // 8. Interlineado
+    function applyLineHeight(val) {
+      currentLineHeight = val;
+      updateLineHeightButtons(val);
+      sendFieldUpdate({ lineHeight: val });
+    }
+
+    function updateLineHeightButtons(val) {
+      document.getElementById("btnLinePegado").classList.toggle("active", val === "1.1");
+      document.getElementById("btnLineNormal").classList.toggle("active", val === "1.35");
+      document.getElementById("btnLineHolgado").classList.toggle("active", val === "1.6");
+    }
+
+    function notifyPendingChanges() {
+      const ind = document.getElementById("saveStatusIndicator");
+      ind.textContent = "● Cambios pendientes de guardar";
+      ind.style.color = "#ff9f43";
+    }
+
+    // Alternar vista del sobre
+    function toggleEnvelopeView() {
+      const frame = document.getElementById("previewFrame");
+      if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ type: "TOGGLE_ENVELOPE_VIEW" }, "*");
+      }
+    }
+
+    // -------------------------------------------------------------
+    // CONEXIÓN Y GUARDADO DIRECTO A DISCO (FILE SYSTEM ACCESS API)
+    // -------------------------------------------------------------
+
+    // 1. Conectar archivo index.html local
+    async function connectLocalFile() {
+      if (!window.showOpenFilePicker) {
+        alert("Tu navegador actual no soporta la API de acceso directo a disco. Por favor, abre este panel en Google Chrome o Microsoft Edge.");
+        return;
+      }
+
+      try {
+        const [handle] = await window.showOpenFilePicker({
+          types: [
+            {
+              description: "Archivo HTML de Invitación (index.html)",
+              accept: { "text/html": [".html", ".htm"] }
+            }
+          ],
+          multiple: false
+        });
+
+        fileHandle = handle;
+        isConnected = true;
+
+        const file = await fileHandle.getFile();
+        document.getElementById("connectText").textContent = "Conectado: " + file.name;
+        document.getElementById("btnConnect").classList.add("connected");
+        document.getElementById("connectIcon").textContent = "🟢";
+
+        showToast("¡Archivo " + file.name + " conectado con éxito para guardado directo!");
+
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          console.error("Error al conectar archivo:", err);
+          alert("No se pudo conectar el archivo: " + err.message);
+        }
+      }
+    }
+
+    // 2. Guardar directamente sobre el archivo index.html en disco
+    async function saveToLocalDisk() {
+      if (isSaving) return;
+
+      if (!fileHandle) {
+        alert("Por favor selecciona tu archivo 'index.html' en tu computadora para autorizar el guardado directo con 1 solo clic.");
+        await connectLocalFile();
+        if (!fileHandle) return;
+      }
+
+      isSaving = true;
+      const btnSave = document.getElementById("btnSave");
+      if (btnSave) {
+        btnSave.style.opacity = "0.7";
+      }
+
+      const frame = document.getElementById("previewFrame");
+      if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ type: "REQUEST_HTML_EXPORT" }, "*");
+      } else {
+        isSaving = false;
+        if (btnSave) btnSave.style.opacity = "1";
+        alert("Error: El marco de vista previa no está listo.");
+      }
+    }
+
+    // 3. Procesar el HTML exportado y escribir en disco
+    async function handleExportHtmlResponse(html) {
+      const btnSave = document.getElementById("btnSave");
+      try {
+        if (!fileHandle) {
+          alert("Error: No se ha seleccionado el archivo index.html.");
+          return;
+        }
+
+        const writable = await fileHandle.createWritable();
+        await writable.write(html);
+        await writable.close();
+
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        
+        const ind = document.getElementById("saveStatusIndicator");
+        ind.textContent = `✔ Guardado en disco a las ${timeStr}`;
+        ind.style.color = "#2ecc71";
+
+        showToast(`¡Archivo guardado con éxito en tu computadora! (${timeStr})`);
+      } catch (err) {
+        console.error("Error al guardar en disco:", err);
+        alert("Error al guardar el archivo: " + err.message);
+      } finally {
+        isSaving = false;
+        if (btnSave) {
+          btnSave.style.opacity = "1";
+        }
+      }
+    }
+
+    // Alternador de vistas Móvil / Escritorio
+    function switchDeviceMode(mode) {
+      const frame = document.getElementById("simulatorFrame");
+      const btnMob = document.getElementById("btnDevMobile");
+      const btnDesk = document.getElementById("btnDevDesktop");
+
+      if (mode === "mobile") {
+        frame.className = "simulator-frame mode-mobile";
+        btnMob.classList.add("active");
+        btnDesk.classList.remove("active");
+      } else {
+        frame.className = "simulator-frame";
+        btnMob.classList.remove("active");
+        btnDesk.classList.add("active");
+      }
+    }
+
+    // Utilidad: Mostrar Toast
+    function showToast(msg) {
+      const toast = document.getElementById("toastNotification");
+      const toastMsg = document.getElementById("toastMessage");
+      toastMsg.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
