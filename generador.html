@@ -331,6 +331,19 @@
             • También acepta separaciones por tabulaciones (copiado directo de celdas de Excel).
           </div>
 
+          <!-- Opción rápida de subir archivo CSV -->
+          <div class="flex items-center gap-2 py-0.5">
+            <div class="flex-1 h-px bg-stone-200"></div>
+            <span class="text-[10px] text-stone-400 uppercase font-semibold">O también</span>
+            <div class="flex-1 h-px bg-stone-200"></div>
+          </div>
+
+          <label class="w-full py-2.5 px-4 rounded-xl border-2 border-dashed border-[#dfba73]/70 hover:border-[#dfba73] bg-[#faf7f2] hover:bg-amber-50/50 text-[#7d5b24] text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer transition-all">
+            <i data-lucide="file-spreadsheet" class="w-4 h-4 text-[#b88c40]"></i>
+            <span>📁 Subir Archivo CSV de Invitados</span>
+            <input type="file" accept=".csv,text/csv,text/plain" class="hidden" onchange="handleCSVUpload(event)">
+          </label>
+
           <div class="pt-2 flex gap-3">
             <button onclick="processBulkGuests()" class="btn-gold flex-1 py-3 px-6 rounded-xl font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
               <i data-lucide="plus-circle" class="w-4 h-4"></i>
@@ -436,8 +449,15 @@
             <span class="hidden sm:inline">Copiar Enlaces</span>
           </button>
 
+          <!-- Importar CSV -->
+          <label title="Cargar lista desde archivo Excel/CSV" class="px-3 py-1.5 rounded-xl border border-amber-300 bg-amber-50/70 hover:bg-amber-100/80 text-[#7d5b24] text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs transition-all">
+            <i data-lucide="upload" class="w-3.5 h-3.5 text-[#b88c40]"></i>
+            <span>Importar CSV</span>
+            <input type="file" accept=".csv,text/csv,text/plain" class="hidden" onchange="handleCSVUpload(event)">
+          </label>
+
           <!-- Exportar a CSV -->
-          <button onclick="exportToCSV()" title="Descargar reporte en archivo Excel/CSV" class="px-3 py-1.5 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5">
+          <button onclick="exportToCSV()" title="Descargar reporte en archivo Excel/CSV" class="px-3 py-1.5 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5 cursor-pointer">
             <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-600"></i>
             <span class="hidden sm:inline">Exportar CSV</span>
           </button>
@@ -1185,6 +1205,138 @@ Por favor confirma tu asistencia directamente en el enlace. ✨❤️🥂`;
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       showToast("Archivo CSV descargado con éxito");
+    }
+
+    // -------------------------------------------------------------
+    // Importación desde CSV / Excel
+    // -------------------------------------------------------------
+    function handleCSVUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const text = e.target.result;
+          importCSVText(text);
+        } catch (err) {
+          alert("Error al leer el archivo CSV: " + err.message);
+        }
+        event.target.value = "";
+      };
+      reader.readAsText(file, "UTF-8");
+    }
+
+    function importCSVText(text) {
+      if (!text || !text.trim()) {
+        showToast("El archivo CSV está vacío.");
+        return;
+      }
+
+      // Quitar BOM si existe
+      if (text.charCodeAt(0) === 0xFEFF) {
+        text = text.substr(1);
+      }
+
+      const lines = text.split(/\r\n|\n|\r/).map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length === 0) {
+        showToast("No se encontraron registros en el archivo.");
+        return;
+      }
+
+      // Detectar delimitador: coma (,) o punto y coma (;)
+      const firstLine = lines[0];
+      const commaCount = (firstLine.match(/,/g) || []).length;
+      const semiCount = (firstLine.match(/;/g) || []).length;
+      const delimiter = semiCount > commaCount ? ";" : ",";
+
+      function parseCSVLine(line, delim) {
+        const values = [];
+        let current = "";
+        let insideQuote = false;
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          if (char === '"') {
+            if (insideQuote && line[i + 1] === '"') {
+              current += '"';
+              i++;
+            } else {
+              insideQuote = !insideQuote;
+            }
+          } else if (char === delim && !insideQuote) {
+            values.push(current.trim());
+            current = "";
+          } else {
+            current += char;
+          }
+        }
+        values.push(current.trim());
+        return values;
+      }
+
+      let startIndex = 0;
+      const firstCols = parseCSVLine(firstLine, delimiter).map(c => c.toLowerCase());
+      if (firstCols.some(c => c.includes("nombre") || c.includes("name") || c.includes("invitado") || c.includes("whatsapp"))) {
+        startIndex = 1;
+      }
+
+      const newGuests = [];
+      for (let i = startIndex; i < lines.length; i++) {
+        const cols = parseCSVLine(lines[i], delimiter);
+        if (!cols || cols.length === 0 || !cols[0]) continue;
+
+        const rawName = cols[0].replace(/^["']|["']$/g, "").trim();
+        if (!rawName) continue;
+
+        const rawPhone = cols.length > 1 ? cols[1].replace(/[^0-9]/g, "") : "";
+        
+        let rawPasses = 2;
+        if (cols.length > 2) {
+          const numMatch = cols[2].match(/\d+/);
+          if (numMatch) {
+            rawPasses = parseInt(numMatch[0], 10) || 2;
+          }
+        }
+
+        let isSent = false;
+        if (cols.length > 3) {
+          const statusText = cols[3].toLowerCase();
+          if (statusText.includes("enviado") || statusText.includes("si") || statusText.includes("yes") || statusText === "1" || statusText === "true") {
+            isSent = true;
+          }
+        }
+
+        newGuests.push({
+          id: "g_" + Date.now() + "_" + Math.random().toString(36).substr(2, 6) + "_" + i,
+          name: rawName,
+          phone: rawPhone,
+          passes: Math.min(Math.max(rawPasses, 1), 10),
+          sent: isSent
+        });
+      }
+
+      if (newGuests.length === 0) {
+        alert("No se encontraron invitados válidos en el archivo. Verifica que contenga los nombres en la primera columna.");
+        return;
+      }
+
+      if (guests.length > 0) {
+        const shouldReplace = confirm(
+          `El archivo contiene ${newGuests.length} invitados.\nActualmente ya tienes ${guests.length} invitados en la lista.\n\n¿Deseas reemplazar la lista existente o agregar los nuevos?\n\n• Pulsa ACEPTAR para REEMPLAZAR la lista completa.\n• Pulsa CANCELAR para AGREGARLOS a los existentes.`
+        );
+        if (shouldReplace) {
+          guests = newGuests;
+        } else {
+          guests = guests.concat(newGuests);
+        }
+      } else {
+        guests = newGuests;
+      }
+
+      saveGuests();
+      renderGuests();
+      showToast(`✅ ¡${newGuests.length} invitados cargados con éxito!`);
+      lucide.createIcons();
     }
 
     // -------------------------------------------------------------
